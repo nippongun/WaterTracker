@@ -1,6 +1,5 @@
 package fi.metropolia.simppa.watertracker;
 
-import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -15,7 +14,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import fi.metropolia.simppa.watertracker.water.Unit;
+import fi.metropolia.simppa.watertracker.database.Unit;
 
 public class UnitActivity extends AppCompatActivity {
 
