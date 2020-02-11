@@ -1,5 +1,6 @@
 package fi.metropolia.simppa.watertracker;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -43,13 +44,29 @@ public class UnitActivity extends AppCompatActivity {
         volume = findViewById(R.id.volume);
         addUnit = findViewById(R.id.addUnit);
 
-        addUnit.setOnClickListener(click);
+        //addUnit.setOnClickListener(click);
         //addUnit.setActivated(false);
 
-        unitList = new ArrayList<Unit>();
+        //unitList = new ArrayList<Unit>();
 
-        mPrefs = getPreferences(MODE_PRIVATE);
+        //mPrefs = getPreferences(MODE_PRIVATE);
         //validateButton();
+
+        addUnit.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Intent replyIntent = new Intent();
+                if (TextUtils.isEmpty(unitName.getText()) || TextUtils.isEmpty((volume.getText()))){
+                    setResult(RESULT_CANCELED, replyIntent);
+                } else {
+                    strUnitName = unitName.getText().toString();
+                    replyIntent.putExtra("Extra",strUnitName);
+                    intVolume = Integer.parseInt(volume.getText().toString());
+                    replyIntent.putExtra("extra", intVolume);
+                    setResult(RESULT_OK, replyIntent);
+                }
+                finish();
+            }
+        });
     }
 
     public void onButton(){
@@ -57,7 +74,7 @@ public class UnitActivity extends AppCompatActivity {
         strVolume = volume.getText().toString();
         intVolume = Integer.parseInt(strVolume);
 
-        unitList.add(new Unit(strUnitName,intVolume));
+        unitList.add(new Unit(0,strUnitName,intVolume));
 
         Editor editor = mPrefs.edit();
         Gson gson = new Gson();
@@ -68,17 +85,5 @@ public class UnitActivity extends AppCompatActivity {
 
         unitName.getText().clear();
         volume.getText().clear();
-    }
-
-    private boolean validateButton() {
-        if (TextUtils.isEmpty(strUnitName)) {
-            unitName.setError("This field cannot be empty");
-            return false;
-        }
-        if (TextUtils.isEmpty(strVolume)) {
-            unitName.setError("This field cannot be empty");
-            return false;
-        }
-        return true;
     }
 }

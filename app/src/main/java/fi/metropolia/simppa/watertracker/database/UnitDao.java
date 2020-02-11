@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface UnitDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Unit unit);
+    void insertUnit(Unit unit);
 
     @Query("DELETE FROM unit_table")
     void deleteAll();

@@ -19,9 +19,14 @@ public class Unit {
     @ColumnInfo(name = "volume")
     private int volume;
 
-    public Unit(@NonNull String unitName, int volume){
+    public Unit(@NonNull int primaryKey, @NonNull String unitName, int volume){
+        this.primaryKey = primaryKey;
         this.unitName = unitName;
         this.volume = volume;
+    }
+
+    public int getPrimaryKey() {
+        return primaryKey;
     }
 
     public String getUnitName() {
@@ -31,7 +36,6 @@ public class Unit {
     public int getVolume() {
         return volume;
     }
-
 
     public String toString() {
         return unitName + volume;

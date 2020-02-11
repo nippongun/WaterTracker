@@ -28,7 +28,7 @@ public class UnitRepository {
 
     void insertUnit(Unit unit){
         UnitDatabase.databaseWriterExecutor.execute(()->{
-            unitDao.insert(unit);
+            unitDao.insertUnit(unit);
         });
     }
 }

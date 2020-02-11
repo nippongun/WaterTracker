@@ -6,6 +6,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
+import androidx.room.PrimaryKey;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
@@ -26,10 +27,23 @@ public abstract class UnitDatabase extends RoomDatabase {
             synchronized (UnitDatabase.class){
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            UnitDatabase.class, "unit_database").build();
+                            UnitDatabase.class, "unit_database").addCallback(sRoomDatabaseCallback).build();
                 }
             }
         }
         return INSTANCE;
     }
+
+    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback(){
+        @Override
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+
+            databaseWriterExecutor.execute(() -> {
+                UnitDao dao = INSTANCE.unitDao();
+                Unit unit = new Unit(0, "standard", 500);
+                dao.insertUnit(unit);
+            });
+        }
+    };
 }
