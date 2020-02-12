@@ -1,6 +1,7 @@
 package fi.metropolia.simppa.watertracker.database;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -21,5 +22,6 @@ public interface UnitDao {
     @Query("SELECT * FROM CONSUMPTION_TABLE")
     LiveData<List<Consumption>> getConsumptionList();
 
-
+    @Delete
+    void deleteUnit(Unit unit);
 }

@@ -31,4 +31,10 @@ public class UnitRepository {
             unitDao.insertUnit(unit);
         });
     }
+
+    void deleteUnit(Unit unit){
+        UnitDatabase.databaseWriterExecutor.execute(()->{
+            unitDao.deleteUnit(unit);
+        });
+    }
 }

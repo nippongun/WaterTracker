@@ -15,10 +15,11 @@ import fi.metropolia.simppa.watertracker.R;
 public class UnitListAdapter extends RecyclerView.Adapter<UnitListAdapter.UnitViewHolder> {
     class UnitViewHolder extends RecyclerView.ViewHolder{
         private final TextView unitItemView;
-
+        private final TextView volumeItemView;
         private UnitViewHolder(View view){
             super(view);
-            unitItemView = itemView.findViewById(R.id.textView);
+            unitItemView = view.findViewById(R.id.textView);
+            volumeItemView = view.findViewById(R.id.volumeView);
         }
     }
 
@@ -38,6 +39,7 @@ public class UnitListAdapter extends RecyclerView.Adapter<UnitListAdapter.UnitVi
         if (units != null){
             Unit current = units.get(position);
             holder.unitItemView.setText(current.getUnitName());
+            holder.volumeItemView.setText(Integer.toString(current.getVolume()));
         } else {
          holder.unitItemView.setText("No unit");
         }

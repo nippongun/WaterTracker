@@ -19,6 +19,9 @@ import fi.metropolia.simppa.watertracker.database.Unit;
 
 public class UnitActivity extends AppCompatActivity {
 
+    public static final String EXTRA_MESSAGE_UNIT_NAME = "fi.metropolia.simppa.watertracker.UNIT_NAME";
+    public static final String EXTRA_MESSAGE_VOLUME = "fi.metropolia.simppa.watertracker.VOLUME";
+
     EditText unitName;
     String strUnitName;
     EditText volume;
@@ -28,62 +31,31 @@ public class UnitActivity extends AppCompatActivity {
 
     ArrayList<Unit> unitList;
     SharedPreferences mPrefs;
-    private View.OnClickListener click = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            onButton();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unit);
 
-        unitName = findViewById(R.id.unitName);
         volume = findViewById(R.id.volume);
-        addUnit = findViewById(R.id.addUnit);
+        unitName = findViewById(R.id.unitName);
 
-        //addUnit.setOnClickListener(click);
-        //addUnit.setActivated(false);
-
-        //unitList = new ArrayList<Unit>();
-
-        //mPrefs = getPreferences(MODE_PRIVATE);
-        //validateButton();
-
-        addUnit.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
+        final Button button = findViewById(R.id.addUnit);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent replyIntent = new Intent();
-                if (TextUtils.isEmpty(unitName.getText()) || TextUtils.isEmpty((volume.getText()))){
-                    setResult(RESULT_CANCELED, replyIntent);
+                if(TextUtils.isEmpty(volume.getText()) || TextUtils.isEmpty(unitName.getText())){
+                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
                     strUnitName = unitName.getText().toString();
-                    replyIntent.putExtra("Extra",strUnitName);
-                    intVolume = Integer.parseInt(volume.getText().toString());
-                    replyIntent.putExtra("extra", intVolume);
+                    strVolume = volume.getText().toString();
+                    replyIntent.putExtra(EXTRA_MESSAGE_UNIT_NAME, strUnitName);
+                    replyIntent.putExtra(EXTRA_MESSAGE_VOLUME, Integer.parseInt(strVolume) );
                     setResult(RESULT_OK, replyIntent);
                 }
                 finish();
             }
         });
-    }
-
-    public void onButton(){
-        strUnitName = unitName.getText().toString();
-        strVolume = volume.getText().toString();
-        intVolume = Integer.parseInt(strVolume);
-
-        unitList.add(new Unit(0,strUnitName,intVolume));
-
-        Editor editor = mPrefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(unitList.get(unitList.size()-1));
-        editor.putString(strUnitName,json);
-
-        editor.commit();
-
-        unitName.getText().clear();
-        volume.getText().clear();
     }
 }

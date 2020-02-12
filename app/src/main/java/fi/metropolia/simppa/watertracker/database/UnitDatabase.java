@@ -41,7 +41,10 @@ public abstract class UnitDatabase extends RoomDatabase {
 
             databaseWriterExecutor.execute(() -> {
                 UnitDao dao = INSTANCE.unitDao();
-                Unit unit = new Unit(0, "standard", 500);
+                dao.deleteAll();
+                Unit unit = new Unit("standard", 500);
+                dao.insertUnit(unit);
+                unit = new Unit("henlö", 333);
                 dao.insertUnit(unit);
             });
         }
