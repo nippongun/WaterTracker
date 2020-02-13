@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WaterTracker</string>
+    <string name="isEmpty">Unit not saved because it is empty</string>
 </resources>
