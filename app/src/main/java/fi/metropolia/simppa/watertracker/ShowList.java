@@ -51,15 +51,6 @@ public class ShowList extends AppCompatActivity {
             }
         });
 
-
-
-        recyclerView.setOnItemClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    unitViewModel.deleteUnit();
-            }
-        });
-
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
 
         fab.setOnClickListener(new View.OnClickListener() {

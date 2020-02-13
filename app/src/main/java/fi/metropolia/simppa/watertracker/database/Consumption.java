@@ -21,8 +21,9 @@ public class Consumption {
     @ColumnInfo(name = "timestamp")
     private Date timeStamp;
 
-    public Consumption(){
-
+    public Consumption(int foreigenUnitKey, Date timeStamp){
+        this.foreigenUnitKey = foreigenUnitKey;
+        this.timeStamp = timeStamp;
     }
 
     public int getForeigenUnitKey() {

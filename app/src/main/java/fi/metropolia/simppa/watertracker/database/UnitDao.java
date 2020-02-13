@@ -13,6 +13,9 @@ public interface UnitDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertUnit(Unit unit);
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertConsupmtion(Consumption consumption);
+
     @Query("DELETE FROM unit_table")
     void deleteAll();
 
