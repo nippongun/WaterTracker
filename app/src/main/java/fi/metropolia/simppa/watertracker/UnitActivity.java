@@ -11,8 +11,6 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
 import fi.metropolia.simppa.watertracker.database.Unit;
