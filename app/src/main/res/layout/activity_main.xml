@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="310dp"
         android:onClick="onButton"
-        android:text="Create new unit"
+        android:text="Add entry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -23,11 +23,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="235dp"
+        android:drawableTop="@drawable/ic_settings_black_24dp"
         android:onClick="onButton"
         android:text="Show Unit List"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <Button
+        android:id="@+id/setDailyGoalButton"
+        android:layout_width="87dp"
+        android:layout_height="85dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/ic_settings_black_24dp"
+        android:onClick="onButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
