@@ -2,6 +2,8 @@ package fi.metropolia.simppa.watertracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,13 +23,40 @@ public class DailyGoalActivity extends AppCompatActivity {
         final TextView currentGoal = findViewById(R.id.currentGoal);
         final Button setButton = findViewById(R.id.buttonSetGoal);
 
+        //Display correct daily goal
+        // 1. Open the file: get references
+        SharedPreferences prefGet = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
+        //2. Read the value, default 0 if not strored
+        int onCreateSaved = prefGet.getInt("new goal", 0);
+        //3. Display stored goal
+        currentGoal.setText(String.valueOf(onCreateSaved) + " ml");
+
         setButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
                 String message = editGoal.getText().toString();
                 goal.setDailygoal(Integer.parseInt(message));
-                currentGoal.setText(String.valueOf(goal.getDailygoal()) + " ml");
+                //currentGoal.setText(String.valueOf(goal.getDailygoal()) + " ml");
 
+
+                //Store new Daily Goal to shared preferences
+                // 1. Open the file: get reference
+                SharedPreferences prefPut = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
+                //2. Open the editor to be able to define what is added to shared preferences
+                SharedPreferences.Editor prefEditor = prefPut.edit();
+                //3. Put the key value pairs
+                prefEditor.putInt("new goal", Integer.parseInt(message));
+               //4. Save the changes by commit
+                prefEditor.commit();
+
+
+                //Display ne value on the screen
+                // 1. Open the file: get references
+                SharedPreferences prefGet = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
+                //2. Read the value, default 0 if not strored
+                int onCreateSaved = prefGet.getInt("new goal", 0);
+                //3. Display stored goal
+                currentGoal.setText(String.valueOf(onCreateSaved) + " ml");
             }
         });
 

@@ -2,7 +2,7 @@ package fi.metropolia.simppa.watertracker;
 
 public class DailyGoal {
 
-    private int dailygoal = 2500;
+    private int dailygoal;
 
     public DailyGoal(int dailygoal) {
         this.dailygoal = dailygoal;
