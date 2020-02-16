@@ -2,7 +2,7 @@
 <resources>
     //Default colors
     <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimaryDark">#4f6873</color>
     <color name="colorAccent">#D81B60</color>
     <color name="cyan">#008B8B</color>
     //Project colors
@@ -10,4 +10,5 @@
     <color name="graphics">#2E69A7</color> //use for icons, text and other graphics
     <color name="backgroundLite">#E8F3F9</color> //Use for PlainText fields or in statistics
     <color name="icon">#232649</color>
+    <color name="bars">#4f6873</color>
 </resources>
