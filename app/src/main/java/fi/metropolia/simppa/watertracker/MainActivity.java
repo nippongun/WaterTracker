@@ -5,7 +5,7 @@ import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
-a
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });//end of the spinner listener
 
 
 
