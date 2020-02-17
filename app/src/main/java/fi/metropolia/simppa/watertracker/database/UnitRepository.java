@@ -11,11 +11,21 @@ public class UnitRepository {
     private  UnitDao unitDao;
     private LiveData<List<Unit>> unitList;
     private LiveData<List<Consumption>> consumptionList;
+
+    private LiveData<Unit> unit;
     UnitRepository(Application application){
         UnitDatabase db = UnitDatabase.getDatabase(application);
         unitDao = db.unitDao();
         unitList = unitDao.getUnitList();
         consumptionList = unitDao.getConsumptionList();
+
+    }
+    public LiveData<Unit> getUnitByName(String name){
+        return unitDao.getUnitByName(name);
+    }
+
+    public LiveData<Unit> getUnitById(int id){
+        return unitDao.getUnitById(id);
     }
 
     public LiveData<List<Unit>> getUnitList() {
@@ -29,6 +39,11 @@ public class UnitRepository {
     void insertUnit(Unit unit){
         UnitDatabase.databaseWriterExecutor.execute(()->{
             unitDao.insertUnit(unit);
+        });
+    }
+    void insertConsumption(Consumption con){
+        UnitDatabase.databaseWriterExecutor.execute(()->{
+            unitDao.insertConsupmtion(con);
         });
     }
 

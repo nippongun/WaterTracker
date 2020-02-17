@@ -9,7 +9,12 @@ import androidx.room.TypeConverters;
 
 import java.util.Date;
 
-@Entity(tableName = "consumption_table", foreignKeys = @ForeignKey(entity = Unit.class, parentColumns = "primary_key", childColumns = "foreign_unit_key"))
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(tableName = "consumption_table", foreignKeys = @ForeignKey(entity = Unit.class,
+                                                                    parentColumns = "primary_key",
+                                                                    childColumns = "foreign_unit_key",
+                                                                    onDelete = CASCADE))
 public class Consumption {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "primary_key")
