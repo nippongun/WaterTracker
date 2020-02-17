@@ -33,12 +33,11 @@
             />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/selectDrinkTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-
-            android:text="Select a drink to record " />
+            android:text="@string/select_drink" />
 
 
     </LinearLayout>
@@ -126,7 +125,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/pontano_sans"
 
-        android:text="1500 ml out of 2500 ml"
+        android:text="@string/consumed_today"
         android:textColor="@color/icon"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -138,7 +137,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:hint="Burn."
+        android:hint="Cons."
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
