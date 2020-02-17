@@ -22,9 +22,14 @@ public interface UnitDao {
     @Query("SELECT * FROM unit_table")
     LiveData<List<Unit>> getUnitList();
 
-    @Query("SELECT * FROM CONSUMPTION_TABLE")
+    @Query("SELECT * FROM CONSUMPTION_TABLE ORDER BY timestamp DESC")
     LiveData<List<Consumption>> getConsumptionList();
 
     @Delete
     void deleteUnit(Unit unit);
+
+    @Query("SELECT * FROM unit_table WHERE primary_Key=:id" )
+    LiveData<Unit> getUnitById(int id);
+    @Query("SELECT * FROM unit_table WHERE unit_name=:name" )
+    LiveData<Unit> getUnitByName(String name);
 }
