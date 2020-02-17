@@ -5,12 +5,13 @@ import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
-a
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+
 
 import android.app.Activity;
 import android.content.Intent;
@@ -40,6 +41,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     Button b1, b2, b3;
     Intent intent;
+    int todayConsumption = 0; //For circle chart
+    int todayGoal; //For circle chart
 
     private ArrayList<String> unitNameList= new ArrayList<>();
     private Spinner spinner;
@@ -151,10 +154,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override //does not work
-    public void onResume () {
+    @Override
+    public void onResume() {
         super.onResume();
-        calsConsumed = goal.getDailygoal(); //updates chart after Daily Goal changed
         updateChart();
 
     }
@@ -188,35 +190,32 @@ public class MainActivity extends AppCompatActivity {
 
     //this function should be changed once we know daily consumption; also field and button from activity_main should be removed
     public void addBurned(View v) {
-        // Get the new value from a user input:
+        // Get the new value from a user input and update:
         EditText burnedEditText = findViewById(R.id.burned);
-        int newBurnedCals = Integer.parseInt(burnedEditText.getText().toString());
-        // Update the old value:
-        calsBurned = newBurnedCals;
+        todayConsumption = Integer.parseInt(burnedEditText.getText().toString());
         updateChart();
     }
 
-
-    //update circle chart with DailyGoal and DailyConsumpion
+    //update circle chart
     private void updateChart() {
         // Get latest daily goal
         // 1. Open the file: get references
         SharedPreferences prefGet = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
         //2. Read the value, default 0 if not strored
-        calsConsumed = prefGet.getInt("new goal", 0);
+        todayGoal = prefGet.getInt("new goal", 0);
 
-        // Update the text in a center of the chart:
-        TextView numberOfCals = findViewById(R.id.number_of_calories);
+        // Update the texts "consumed out of goal" and "XX%"
+        TextView statusUpdateTextView = findViewById(R.id.statusUpdateTextView);
         TextView percentageTextView = findViewById(R.id.percentageTextView);
-        numberOfCals.setText(String.valueOf(calsBurned) + " ml out of " + String.valueOf(calsConsumed) + " ml");
+        statusUpdateTextView.setText(String.valueOf(todayConsumption) + " ml out of " + String.valueOf(todayGoal) + " ml");
 
         // Calculate the slice size and update the pie chart:
         ProgressBar pieChart = findViewById(R.id.stats_progressbar);
-        double d = (double) calsBurned / (double) calsConsumed;
+        double d = (double) todayConsumption / (double) todayGoal;
         int progress = (int) (d * 100);
         pieChart.setProgress(progress);
         percentageTextView.setText(String.valueOf(progress) + "%");
-        Log.d("TEST", String.valueOf(calsConsumed));
+        Log.d("TEST", String.valueOf(todayGoal));
     }
 
 
