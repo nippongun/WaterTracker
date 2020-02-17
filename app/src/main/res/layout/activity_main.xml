@@ -87,7 +87,7 @@
     <!-- Temporary stuff for testing circle chart -->
 
     <TextView
-        android:id="@+id/number_of_calories"
+        android:id="@+id/statusUpdateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pontano_sans"
@@ -144,7 +144,7 @@
         android:text="Today"
         android:textColor="@color/icon"
         android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/number_of_calories"
+        app:layout_constraintBottom_toTopOf="@+id/statusUpdateTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
