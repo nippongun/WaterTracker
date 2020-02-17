@@ -12,8 +12,10 @@
         <activity android:name=".AllDrinkList"></activity>
         <activity android:name=".ConsumptionActivity" />
         <activity
-            android:name=".DailyGoalSettings"
-            android:parentActivityName=".MainActivity" />
+
+            android:name=".DailyGoalActivity"
+            android:parentActivityName=".MainActivity"/>
+
         <activity android:name=".ShowList" />
         <activity android:name=".UnitActivity" />
         <activity android:name=".MainActivity">
@@ -23,6 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

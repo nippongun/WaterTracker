@@ -4,7 +4,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
@@ -17,7 +17,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+
     }
 }
 
@@ -31,3 +31,4 @@ ext {
     coreTestingVersion = '2.1.0'
     materialVersion = '1.0.0'
 }
+
