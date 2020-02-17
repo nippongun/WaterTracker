@@ -11,6 +11,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -36,16 +38,27 @@ public abstract class UnitDatabase extends RoomDatabase {
 
     private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback(){
         @Override
-        public void onOpen(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
 
             databaseWriterExecutor.execute(() -> {
                 UnitDao dao = INSTANCE.unitDao();
-                dao.deleteAll();
+                //dao.deleteAll();
                 Unit unit = new Unit("standard", 500);
                 dao.insertUnit(unit);
                 unit = new Unit("henlö", 333);
                 dao.insertUnit(unit);
+                unit = new Unit("small", 100);
+                dao.insertUnit(unit);
+                unit = new Unit("median", 200);
+                dao.insertUnit(unit);
+
+
+                //add a consumption record
+                Date date= Calendar.getInstance().getTime();
+                Consumption consumption= new Consumption(1,date);
+                dao.insertConsupmtion(consumption);
+
             });
         }
     };
