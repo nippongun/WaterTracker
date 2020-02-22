@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".UnitActivity">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="64dp"
@@ -18,6 +20,7 @@
             android:id="@+id/unitName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/backgroundLite"
             android:ems="10"
             android:hint="UNIT NAME"
             android:inputType="textPersonName"
@@ -28,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:background="@color/backgroundLite"
             android:ems="10"
             android:hint="VOLUME"
             android:inputType="numberDecimal"
@@ -36,8 +40,10 @@
         <Button
             android:id="@+id/addUnit"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:background="@drawable/custom_button"
             android:text="CREATE" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
