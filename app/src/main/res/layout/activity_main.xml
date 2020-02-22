@@ -33,14 +33,17 @@
             android:layout_weight="4"
 
 
-            />
+            android:background="@color/background"
+            android:backgroundTint="@color/background" />
 
         <TextView
             android:id="@+id/selectDrinkTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/select_drink" />
+            android:fontFamily="@font/pontano_sans"
+            android:text="@string/select_drink"
+            android:textColor="@color/icon" />
 
 
     </LinearLayout>

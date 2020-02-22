@@ -48,7 +48,7 @@ public class UnitActivity extends AppCompatActivity {
                 } else {
                     strUnitName = unitName.getText().toString();
                     strVolume = volume.getText().toString();
-                    replyIntent.putExtra(EXTRA_MESSAGE_UNIT_NAME, strUnitName);
+                    replyIntent.putExtra(EXTRA_MESSAGE_UNIT_NAME, strUnitName );
                     replyIntent.putExtra(EXTRA_MESSAGE_VOLUME, Integer.parseInt(strVolume) );
                     setResult(RESULT_OK, replyIntent);
                 }
