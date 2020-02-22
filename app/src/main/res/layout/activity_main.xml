@@ -13,7 +13,7 @@
         android:id="@+id/main_spinner_chooseUnit"
         android:layout_width="315dp"
         android:layout_height="55dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:layout_weight="4"
         android:background="@drawable/custom_button"
         android:backgroundTint="@color/background"
@@ -52,26 +52,26 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:drawableTop="@drawable/ic_settings_black_24dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bottle"
+        android:backgroundTint="@color/icon"
         android:onClick="onButton"
-        android:text="Show Unit List"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/setDailyGoalButton"
+        app:layout_constraintEnd_toStartOf="@+id/setDailyGoalButton"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/setDailyGoalButton"
-        android:layout_width="87dp"
-        android:layout_height="85dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:background="@drawable/ic_settings_black_24dp"
         android:onClick="onButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <ProgressBar
         android:id="@+id/background_progressbar"
@@ -110,7 +110,7 @@
         android:id="@+id/statusUpdateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/pontano_sans"
 
         android:text="@string/consumed_today"
@@ -157,7 +157,7 @@
         android:id="@+id/todayTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/pontano_sans"
         android:text="Today"
         android:textColor="@color/icon"
@@ -168,6 +168,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/stats"
+        android:backgroundTint="@color/icon"
+        app:layout_constraintBaseline_toBaselineOf="@+id/setDailyGoalButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/setDailyGoalButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,36 +3,27 @@ package fi.metropolia.simppa.watertracker;
 import fi.metropolia.simppa.watertracker.database.Consumption;
 import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.AsyncTask;
-
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-
 import android.widget.ListView;
 import android.widget.Spinner;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -62,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         b2 = findViewById(R.id.button2);
         b3 = findViewById(R.id.setDailyGoalButton);
 
+        String defaultTextForSpinner = "text here";
+
+
+
+            //spinner.setAdapter(new CustomSpinnerAdapter(this, R.layout.spinner_row, arrayForSpinner, defaultTextForSpinner));
 
 
         /*
