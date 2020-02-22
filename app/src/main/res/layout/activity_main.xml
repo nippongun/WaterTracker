@@ -9,41 +9,35 @@
     tools:layout_editor_absoluteY="25dp">
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+    <Spinner
+        android:id="@+id/main_spinner_chooseUnit"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="4"
         android:background="@drawable/custom_button"
-        android:orientation="horizontal"
+        android:backgroundTint="@color/background"
+        android:prompt="@string/select_drink"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/background_progressbar">
-
-        <Spinner
-            android:id="@+id/main_spinner_chooseUnit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="4"
+        app:layout_constraintTop_toBottomOf="@+id/background_progressbar" />
 
 
-            />
+    <!-- The text that goes in a center of the chart -->
 
-        <TextView
-            android:id="@+id/selectDrinkTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/select_drink" />
-
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/selectDrinkTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/pontano_sans"
+        android:text="@string/select_drink"
+        android:textColor="@color/icon"
+        app:layout_constraintBottom_toBottomOf="@+id/main_spinner_chooseUnit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/main_spinner_chooseUnit"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button"
@@ -54,8 +48,7 @@
         android:text="Add entry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
+        app:layout_constraintTop_toBottomOf="@+id/main_spinner_chooseUnit" />
 
     <Button
         android:id="@+id/button2"
@@ -73,20 +66,12 @@
         android:id="@+id/setDailyGoalButton"
         android:layout_width="87dp"
         android:layout_height="85dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/ic_settings_black_24dp"
         android:onClick="onButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2" />
-
-
-    <!-- ProgressBar that represents a total of 100% -->
-
-    <!-- ProgressBar that represents a chart slice, where "android:progress" is the % value of the slice -->
-
-    <!-- The text that goes in a center of the chart -->
 
     <ProgressBar
         android:id="@+id/background_progressbar"
