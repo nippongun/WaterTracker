@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -32,4 +33,9 @@ public interface UnitDao {
     LiveData<Unit> getUnitById(int id);
     @Query("SELECT * FROM unit_table WHERE unit_name=:name" )
     LiveData<Unit> getUnitByName(String name);
+
+    @Query("SELECT SUM(volume) FROM unit_table,consumption_table WHERE primary_key=foreign_unit_key AND timestamp= :date")
+    default LiveData<Integer> selectVolumByDate(Date date) {
+        return null;
+    }
 }

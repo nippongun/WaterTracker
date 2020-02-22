@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 import androidx.room.Database;
 
+import java.util.Date;
 import java.util.List;
 
 public class UnitRepository {
@@ -51,5 +52,10 @@ public class UnitRepository {
         UnitDatabase.databaseWriterExecutor.execute(()->{
             unitDao.deleteUnit(unit);
         });
+    }
+
+    public LiveData<Integer> selectVolumeByDate(Date date){
+        return unitDao.selectVolumByDate(date);
+
     }
 }

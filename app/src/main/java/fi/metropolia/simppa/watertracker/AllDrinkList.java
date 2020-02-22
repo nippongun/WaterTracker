@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,10 +22,23 @@ import fi.metropolia.simppa.watertracker.database.UnitViewModel;
 public class AllDrinkList extends AppCompatActivity {
     private String intentValue, consumpItem;
 
+
+
+    public void btOnclick(View view){
+
+        Intent intent= new Intent(this, Chart.class);
+        startActivity(intent);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_drink_list);
+
+
+
+
         Intent intent=getIntent();
         intentValue=intent.getStringExtra("message");
 
@@ -44,12 +58,9 @@ public class AllDrinkList extends AppCompatActivity {
                                 SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                                 String formattedDate = df.format(con.getTimeStamp());
 
-                                consumpItem= formattedDate+"     "+unit.getUnitName()+"    ";
+                                consumpItem= formattedDate+"     "+unit.getUnitName();
                                 itemList.add(consumpItem);
                                 volumList.add(""+unit.getVolume()+"ml");
-                                Log.d("my","size of itemList"+itemList.size());
-                                Log.d("my","size of volume"+volumList.size());
-
                                 RecyclerView recyclerView= findViewById(R.id.dinkList_recyclerView);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(AllDrinkList.this));
                                 MyAdapter myAdapter= new MyAdapter();
