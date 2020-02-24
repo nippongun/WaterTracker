@@ -3,9 +3,11 @@ package fi.metropolia.simppa.watertracker;
 import fi.metropolia.simppa.watertracker.database.Consumption;
 import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.app.Activity;
@@ -19,28 +21,30 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
-    Button b1, b2, b3;
+    Button b1, b2, b3, b4;
     Intent intent;
     int todayConsumption = 0; //For circle chart
     int todayGoal; //For circle chart
 
-    private ArrayList<String> unitNameList= new ArrayList<>();
+    private ArrayList<String> unitNameList = new ArrayList<>();
     private Spinner spinner;
-   private boolean isinitial=true;
+    private boolean isinitial = true;
 
-    int calsBurned = 0; //For circle chart
-    int calsConsumed = 2500; //For circle chart
+    int waterConsumed = 0; //For circle chart
+    int waterGoal = 2500; //For circle chart
     private DailyGoal goal = new DailyGoal(2500); //to obtain updated Daily Goal
 
 
@@ -52,37 +56,36 @@ public class MainActivity extends AppCompatActivity {
         b1 = findViewById(R.id.button);
         b2 = findViewById(R.id.button2);
         b3 = findViewById(R.id.setDailyGoalButton);
+        b4 = findViewById(R.id.statsButton);
 
         String defaultTextForSpinner = "text here";
 
 
-
-            //spinner.setAdapter(new CustomSpinnerAdapter(this, R.layout.spinner_row, arrayForSpinner, defaultTextForSpinner));
+        //spinner.setAdapter(new CustomSpinnerAdapter(this, R.layout.spinner_row, arrayForSpinner, defaultTextForSpinner));
 
 
         /*
          * From Feihua
          * populate the spinner in the main_activity
          *
-          */
+         */
         //get view Model
-        UnitViewModel unitViewModel= new ViewModelProvider(this).get(UnitViewModel.class);
+        UnitViewModel unitViewModel = new ViewModelProvider(this).get(UnitViewModel.class);
         //get all units from database through view model and live data
-        unitViewModel.getUnitList().observe(this,new Observer<List<Unit>>(){
+        unitViewModel.getUnitList().observe(this, new Observer<List<Unit>>() {
 
             @Override
             public void onChanged(List<Unit> units) {
 
                 //empty the list so every item are not populate again and again
                 unitNameList.clear();
-                for(Unit unit:units){
-                    unitNameList.add(unit.getUnitName()+" "+unit.getVolume()+"ml");
+                for (Unit unit : units) {
+                    unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, unitNameList);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner=findViewById(R.id.main_spinner_chooseUnit);
+                spinner = findViewById(R.id.main_spinner_chooseUnit);
                 spinner.setAdapter(adapter);
-
 
 
             }
@@ -113,20 +116,15 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onChanged(Unit unit) {
 
-                                Consumption drink = new Consumption(unit.getPrimaryKey(),Calendar.getInstance().getTime());
+                                Consumption drink = new Consumption(unit.getPrimaryKey(), Calendar.getInstance().getTime());
 
-                                    if(!isinitial) {
-                                        new InsertConsumption().execute(drink);
-                                        Intent intent= new Intent(MainActivity.this,AllDrinkList.class);
-                                        intent.putExtra("message","all");
-                                        startActivity(intent);
-                                    }
-                                    isinitial=false;
-
-
-
-
-
+                                if (!isinitial) {
+                                    new InsertConsumption().execute(drink);
+                                    Intent intent = new Intent(MainActivity.this, AllDrinkList.class);
+                                    intent.putExtra("message", "all");
+                                    startActivity(intent);
+                                }
+                                isinitial = false;
 
 
                             }
@@ -139,13 +137,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-
 
 
     }
@@ -169,8 +160,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
     public void onButton(View view) {
         if (view.getId() == b1.getId()) {
             intent = new Intent(this, UnitActivity.class);
@@ -181,6 +170,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (view.getId() == b3.getId()) {
             intent = new Intent(this, DailyGoalActivity.class);
             startActivity(intent);
+        } else if (view.getId() == b4.getId()) {
+            Log.d("TEST", "stats button clicked");
+            intent = new Intent(this, StatisticsActivity.class);
+            startActivity(intent);
+            Log.d("TEST", "stats activity started");
         }
     }
 
