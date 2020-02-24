@@ -60,7 +60,11 @@ public class AllDrinkList extends AppCompatActivity {
 
                                 consumpItem= formattedDate+"     "+unit.getUnitName();
                                 itemList.add(consumpItem);
-                                volumList.add(""+unit.getVolume()+"ml");
+
+                                volumList.add(""+unit.getVolume()+" ml");
+                                Log.d("my","size of itemList"+itemList.size());
+                                Log.d("my","size of volume"+volumList.size());
+
                                 RecyclerView recyclerView= findViewById(R.id.dinkList_recyclerView);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(AllDrinkList.this));
                                 MyAdapter myAdapter= new MyAdapter();

@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Chart"></activity>
-        <activity android:name=".AllDrinkList" />
+        <activity android:name=".AllDrinkList"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".ConsumptionActivity" />
         <activity
             android:name=".DailyGoalActivity"

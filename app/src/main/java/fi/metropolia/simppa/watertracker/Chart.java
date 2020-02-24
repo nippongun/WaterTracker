@@ -44,13 +44,8 @@ public class Chart extends AppCompatActivity {
 
 
         UnitViewModel viewModel= new ViewModelProvider(this).get(UnitViewModel.class);
-        Converters.
-        viewModel.selectVolumeByDate("2020-02-18").observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                Log.d("my",""+integer);
-            }
-        });
+
+
 
 
 
