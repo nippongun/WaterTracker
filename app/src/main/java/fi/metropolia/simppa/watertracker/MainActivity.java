@@ -25,6 +25,8 @@ import android.widget.Spinner;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -33,8 +35,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
+
 public class MainActivity extends AppCompatActivity {
     Button b1, b2, b3, b4;
+
     Intent intent;
     int todayConsumption = 0; //For circle chart
     int todayGoal; //For circle chart
@@ -53,15 +57,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        b1 = findViewById(R.id.button);
+       // b1 = findViewById(R.id.button);
         b2 = findViewById(R.id.button2);
         b3 = findViewById(R.id.setDailyGoalButton);
         b4 = findViewById(R.id.statsButton);
-
-        String defaultTextForSpinner = "text here";
-
-
-        //spinner.setAdapter(new CustomSpinnerAdapter(this, R.layout.spinner_row, arrayForSpinner, defaultTextForSpinner));
 
 
         /*
@@ -70,22 +69,35 @@ public class MainActivity extends AppCompatActivity {
          *
          */
         //get view Model
+
         UnitViewModel unitViewModel = new ViewModelProvider(this).get(UnitViewModel.class);
+
         //get all units from database through view model and live data
         unitViewModel.getUnitList().observe(this, new Observer<List<Unit>>() {
 
             @Override
             public void onChanged(List<Unit> units) {
 
+
+
                 //empty the list so every item are not populate again and again
                 unitNameList.clear();
                 for (Unit unit : units) {
                     unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
                 }
+
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_unit_style, unitNameList);
-                adapter.setDropDownViewResource(R.layout.spinner_unit_style);
+
+
+
+
+                adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
                 spinner = findViewById(R.id.main_spinner_chooseUnit);
+
                 spinner.setAdapter(adapter);
+                //spinner.setSelection(adapter.getCount());//sets the last option as default
+                //spinner.setPrompt("Record consumption");
+
 
 
             }
