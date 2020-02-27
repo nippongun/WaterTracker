@@ -70,13 +70,13 @@ public class Chart extends AppCompatActivity {
 
             List<DataEntry> data = new ArrayList<>();
             data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(0)));
-            cal.add(Calendar.DATE, 1);
+            cal.add(Calendar.DATE, -1);
             data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(1)));
-            cal.add(Calendar.DATE, 1);
+            cal.add(Calendar.DATE, -1);
             data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(2)));
-            cal.add(Calendar.DATE, 1);
+            cal.add(Calendar.DATE, -1);
             data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(3)));
-            cal.add(Calendar.DATE, 1);
+            cal.add(Calendar.DATE, -1);
             data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(4)));
             chartRendering(data);
 
@@ -94,32 +94,32 @@ public class Chart extends AppCompatActivity {
                 volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
 
             }
-            dates[0]=addDays(dates[0],1);
-            dates[1]=addDays(dates[1],1);
+            dates[0]=addDays(dates[0],-1);
+            dates[1]=addDays(dates[1],-1);
             if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
                 volumeList.add(0);
             }else{
                 volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
 
             }
-            dates[0]=addDays(dates[0],1);
-            dates[1]=addDays(dates[1],1);
+            dates[0]=addDays(dates[0],-1);
+            dates[1]=addDays(dates[1],-1);
             if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
                 volumeList.add(0);
             }else{
                 volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
 
             }
-            dates[0]=addDays(dates[0],1);
-            dates[1]=addDays(dates[1],1);
+            dates[0]=addDays(dates[0],-1);
+            dates[1]=addDays(dates[1],-1);
             if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
                 volumeList.add(0);
             }else{
                 volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
 
             }
-            dates[0]=addDays(dates[0],1);
-            dates[1]=addDays(dates[1],1);
+            dates[0]=addDays(dates[0],-1);
+            dates[1]=addDays(dates[1],-1);
             if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
                 volumeList.add(0);
             }else{
