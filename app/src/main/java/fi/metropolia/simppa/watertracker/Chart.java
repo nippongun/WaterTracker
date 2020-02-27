@@ -1,5 +1,7 @@
 package fi.metropolia.simppa.watertracker;
 
+import android.content.SharedPreferences;
+import android.icu.util.GregorianCalendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,39 +39,149 @@ import fi.metropolia.simppa.watertracker.database.UnitViewModel;
 
 public class Chart extends AppCompatActivity {
 
+    int year=Calendar.getInstance().get(Calendar.YEAR);
+    int month= Calendar.getInstance().get(Calendar.MONTH);
+    int day=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+
+
+
+
+    public class getVolume extends AsyncTask<Date, Void, List<Integer>> {
+
+        private List<Integer> volumeList= new ArrayList<>();
+        UnitViewModel viewModel = new ViewModelProvider(Chart.this).get(UnitViewModel.class);
+
+        public Date addDays(Date date, int days)
+        {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.add(Calendar.DATE, days); //minus number would decrement the days
+            return cal.getTime();
+        }
+
+
+
+        @Override
+        protected void onPostExecute(List<Integer> integes) {
+            Calendar cal=Calendar.getInstance();
+            cal.set(year,month,day,0,0,0);
+
+
+            List<DataEntry> data = new ArrayList<>();
+            data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(0)));
+            cal.add(Calendar.DATE, 1);
+            data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(1)));
+            cal.add(Calendar.DATE, 1);
+            data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(2)));
+            cal.add(Calendar.DATE, 1);
+            data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(3)));
+            cal.add(Calendar.DATE, 1);
+            data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(4)));
+            chartRendering(data);
+
+
+
+
+
+        }
+
+        @Override
+        protected List<Integer> doInBackground(Date... dates) {
+            if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
+                volumeList.add(0);
+            }else{
+                volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
+
+            }
+            dates[0]=addDays(dates[0],1);
+            dates[1]=addDays(dates[1],1);
+            if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
+                volumeList.add(0);
+            }else{
+                volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
+
+            }
+            dates[0]=addDays(dates[0],1);
+            dates[1]=addDays(dates[1],1);
+            if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
+                volumeList.add(0);
+            }else{
+                volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
+
+            }
+            dates[0]=addDays(dates[0],1);
+            dates[1]=addDays(dates[1],1);
+            if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
+                volumeList.add(0);
+            }else{
+                volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
+
+            }
+            dates[0]=addDays(dates[0],1);
+            dates[1]=addDays(dates[1],1);
+            if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
+                volumeList.add(0);
+            }else{
+                volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
+
+            }
+            Log.d("chart","size of volumList "+volumeList.size());
+
+            return volumeList;
+        }
+
+    }
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
 
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(0);
+        cal.set(year,month,day,0,0,0);
+        Date from=cal.getTime();
+        cal.set(year,month,day,23,59,59);
+        Date to=cal.getTime();
 
-        UnitViewModel viewModel= new ViewModelProvider(this).get(UnitViewModel.class);
+
+
+
+
+        getVolume gv= new getVolume();
+
+        gv.execute(from,to);
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+    }
+
+    /**
+     * the actually chart rendering method the data set as parameter
+    * */
+
+    public void chartRendering( List<DataEntry> data ){
         AnyChartView anyChartView = findViewById(R.id.any_chart_view);
         anyChartView.setProgressBar(findViewById(R.id.progress_bar));
-
         Cartesian cartesian = AnyChart.column();
-
-
-
-
-
-        List<DataEntry> data = new ArrayList<>();
-        data.add(new ValueDataEntry("Rouge", 80540));
-        data.add(new ValueDataEntry("Foundation", 94190));
-        data.add(new ValueDataEntry("Mascara", 102610));
-        data.add(new ValueDataEntry("Lip gloss", 110430));
-        data.add(new ValueDataEntry("Lipstick", 128000));
-        data.add(new ValueDataEntry("Nail polish", 143760));
-        data.add(new ValueDataEntry("Eyebrow pencil", 170670));
-        data.add(new ValueDataEntry("Eyeliner", 213210));
-        data.add(new ValueDataEntry("Eyeshadows", 249980));
-
         Column column = cartesian.column(data);
 
         column.tooltip()
@@ -78,20 +190,20 @@ public class Chart extends AppCompatActivity {
                 .anchor(Anchor.CENTER_BOTTOM)
                 .offsetX(0d)
                 .offsetY(5d)
-                .format("${%Value}{groupsSeparator: }");
+                .format("ml{%Value}{groupsSeparator: }");
 
         cartesian.animation(true);
-        cartesian.title("Top 10 Cosmetic Products by Revenue");
+        cartesian.title("Recent 5 days water intake");
 
         cartesian.yScale().minimum(0d);
 
-        cartesian.yAxis(0).labels().format("${%Value}{groupsSeparator: }");
+        cartesian.yAxis(0).labels().format("ml {%Value}{groupsSeparator: }");
 
         cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
 
-        cartesian.xAxis(0).title("Product");
-        cartesian.yAxis(0).title("Revenue");
+        cartesian.xAxis(0).title("Date");
+        cartesian.yAxis(0).title("Water Intake Amount");
 
         anyChartView.setChart(cartesian);
 

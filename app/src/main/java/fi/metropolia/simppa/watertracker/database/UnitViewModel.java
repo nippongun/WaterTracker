@@ -47,8 +47,8 @@ public class UnitViewModel extends AndroidViewModel {
 
     public void deleteUnit(Unit unit) {repository.deleteUnit(unit);}
 
-    public LiveData<Integer> selectVolumeByDate(Date date){
-        return repository.selectVolumeByDate(date);
+    public Integer selectVolumeByDate(Date from,Date to){
+        return repository.selectVolumeByDate(from,to);
 
     }
 

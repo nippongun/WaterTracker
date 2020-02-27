@@ -54,8 +54,8 @@ public class UnitRepository {
         });
     }
 
-    public LiveData<Integer> selectVolumeByDate(Date date){
-        return unitDao.selectVolumByDate(date);
+    public Integer selectVolumeByDate(Date from,Date to){
+        return unitDao.selectVolumByDate(from,to);
 
     }
 }
