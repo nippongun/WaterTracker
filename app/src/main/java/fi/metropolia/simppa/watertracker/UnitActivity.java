@@ -2,7 +2,6 @@ package fi.metropolia.simppa.watertracker;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -35,10 +34,10 @@ public class UnitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unit);
 
-        volume = findViewById(R.id.volume);
-        unitName = findViewById(R.id.unitName);
+        volume = findViewById(R.id.textEdit_volume);
+        unitName = findViewById(R.id.textEdit_unitname);
 
-        final Button button = findViewById(R.id.addUnit);
+        final Button button = findViewById(R.id.button_addUnit);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -16,8 +16,13 @@
             android:name=".DailyGoalActivity"
             android:parentActivityName=".MainActivity"/>
 
-        <activity android:name=".ShowList" />
-        <activity android:name=".UnitActivity" />
+        <activity
+            android:name=".ShowList"
+            android:parentActivityName=".MainActivity"/>
+
+        <activity
+            android:name=".UnitActivity"
+            android:parentActivityName=".ShowList"/>
         <activity android:name=".StatisticsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

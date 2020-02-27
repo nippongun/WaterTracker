@@ -45,7 +45,7 @@ public class ShowList extends AppCompatActivity {
         unitViewModel.getUnitList().observe(this, new Observer<List<Unit>>() {
             @Override
             public void onChanged(@Nullable final List<Unit> units) {
-                adapter.setUnits(units);
+                adapter.setUnits(units.subList(1,units.size()-1));
             }
         });
 
