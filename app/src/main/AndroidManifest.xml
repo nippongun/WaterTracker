@@ -16,7 +16,6 @@
         <activity
             android:name=".DailyGoalActivity"
             android:parentActivityName=".MainActivity"/>
-
         <activity
             android:name=".ShowList"
             android:parentActivityName=".MainActivity"/>
