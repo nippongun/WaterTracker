@@ -12,7 +12,7 @@ public class Unit {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "primary_key")
-    private int primaryKey;
+    private long primaryKey;
     @NonNull
     @ColumnInfo(name = "unit_name")
     private String unitName;
@@ -24,7 +24,7 @@ public class Unit {
         this.volume = volume;
     }
 
-    public int getPrimaryKey() {
+    public long getPrimaryKey() {
         return primaryKey;
     }
 
@@ -36,7 +36,7 @@ public class Unit {
         return volume;
     }
 
-    public void setPrimaryKey(int primaryKey) {
+    public void setPrimaryKey(long primaryKey) {
         this.primaryKey = primaryKey;
     }
 

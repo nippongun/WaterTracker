@@ -16,10 +16,10 @@ public interface UnitDao {
 
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertUnit(Unit unit);
+    long insertUnit(Unit unit);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertConsupmtion(Consumption consumption);
+    long insertConsumption(Consumption consumption);
 
     @Query("DELETE FROM unit_table")
     void deleteAll();
@@ -34,10 +34,13 @@ public interface UnitDao {
     void deleteUnit(Unit unit);
 
     @Query("SELECT * FROM unit_table WHERE primary_Key=:id" )
-    LiveData<Unit> getUnitById(int id);
+    Unit getUnitById(long id);
+    @Query("SELECT * FROM unit_table WHERE primary_Key=:id" )
+    LiveData<Unit> getUnitByIdLive(long id);
     @Query("SELECT * FROM unit_table WHERE unit_name=:name" )
-    LiveData<Unit> getUnitByName(String name);
+    Unit getUnitByName(String name);
 
     @Query("SELECT SUM(volume) FROM consumption_table INNER JOIN unit_table ON unit_table.primary_key=consumption_table.foreign_unit_key WHERE consumption_table.timestamp BETWEEN :from AND :to")
     Integer selectVolumByDate(Date from,Date to);
+
 }

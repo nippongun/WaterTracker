@@ -21,12 +21,12 @@ public class UnitRepository {
         consumptionList = unitDao.getConsumptionList();
 
     }
-    public LiveData<Unit> getUnitByName(String name){
+    /*public LiveData<Unit> getUnitByName(String name){
         return unitDao.getUnitByName(name);
-    }
+    }*/
 
-    public LiveData<Unit> getUnitById(int id){
-        return unitDao.getUnitById(id);
+    public LiveData<Unit> getUnitById(long id){
+        return unitDao.getUnitByIdLive(id);
     }
 
     public LiveData<List<Unit>> getUnitList() {
@@ -39,10 +39,10 @@ public class UnitRepository {
 
     void insertUnit(Unit unit){
         UnitDatabase.databaseWriterExecutor.execute(()->{
-            unitDao.insertUnit(unit);
+             unitDao.insertUnit(unit);
         });
     }
-    void insertConsumption(Consumption con){
+    /*void insertConsumption(Consumption con){
         UnitDatabase.databaseWriterExecutor.execute(()->{
             unitDao.insertConsupmtion(con);
         });
@@ -52,7 +52,9 @@ public class UnitRepository {
         UnitDatabase.databaseWriterExecutor.execute(()->{
             unitDao.deleteUnit(unit);
         });
-    }
+
+    }*/
+
 
     public Integer selectVolumeByDate(Date from,Date to){
         return unitDao.selectVolumByDate(from,to);
