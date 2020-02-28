@@ -72,7 +72,7 @@
         android:fontFamily="@font/pontano_sans"
         android:gravity="center_horizontal|center_vertical"
         android:hint="2500"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         android:textColor="@android:color/darker_gray"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
