@@ -4,11 +4,27 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Chart"></activity>
+        <activity android:name=".AllDrinkList"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ConsumptionActivity" />
+        <activity
+            android:name=".DailyGoalActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ShowList"
+            android:parentActivityName=".MainActivity"/>
+
+        <activity
+            android:name=".UnitActivity"
+            android:parentActivityName=".ShowList"/>
+
+        <activity android:name=".StatisticsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,6 +32,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

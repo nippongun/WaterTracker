@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".DailyGoalActivity">
+
+    <TextView
+        android:id="@+id/textView_dailygoal"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:fontFamily="@font/pontano_sans"
+        android:text="@string/daily_goal"
+        android:textColor="@color/icon"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_currentgoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pontano_sans"
+        android:layout_marginTop="32dp"
+        android:text="@string/current_goal"
+        android:textColor="@color/icon"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_dailygoal" />
+
+    <TextView
+        android:id="@+id/textView_actualcurrentgoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pontano_sans"
+        android:layout_marginTop="16dp"
+        android:text="2500 ml"
+        android:textColor="@color/icon"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_currentgoal" />
+
+    <TextView
+        android:id="@+id/textView_newgoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pontano_sans"
+        android:layout_marginTop="32dp"
+        android:text="@string/new_goal"
+        android:textColor="@color/icon"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_actualcurrentgoal" />
+
+    <EditText
+        android:id="@+id/editText_editdailygoal"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/backgroundLite"
+        android:ems="10"
+        android:fontFamily="@font/pontano_sans"
+        android:gravity="center_horizontal|center_vertical"
+        android:hint="2500"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_newgoal" />
+
+    <Button
+        android:id="@+id/button_setgoal"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginEnd="76dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/pontano_sans"
+        android:text="@string/set_goal"
+        android:textAllCaps="false"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_editdailygoal"
+        app:layout_constraintVertical_bias="0.86" />
+</androidx.constraintlayout.widget.ConstraintLayout>
