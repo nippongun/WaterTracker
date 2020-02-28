@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 //empty the list so every item are not populate again and again
                 unitNameList.clear();
                 for (Unit unit : units) {
+
                     unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
                 }
 
@@ -303,8 +304,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Integer doInBackground(Date... dates) {
 
-
-            return viewModel.selectVolumeByDate(dates[0],dates[1]);
+                    if(viewModel.selectVolumeByDate(dates[0],dates[1])==null){
+                        return 0;
+                    }else {
+                        return viewModel.selectVolumeByDate(dates[0], dates[1]);
+                    }
         }
 
     }

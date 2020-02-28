@@ -69,15 +69,15 @@ public class Chart extends AppCompatActivity {
 
 
             List<DataEntry> data = new ArrayList<>();
-            data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(0)));
+            data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(0)));
             cal.add(Calendar.DATE, -1);
-            data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(1)));
+            data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(1)));
             cal.add(Calendar.DATE, -1);
-            data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(2)));
+            data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(2)));
             cal.add(Calendar.DATE, -1);
-            data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(3)));
+            data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(3)));
             cal.add(Calendar.DATE, -1);
-            data.add(new ValueDataEntry(""+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH), integes.get(4)));
+            data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(4)));
             chartRendering(data);
 
 
@@ -190,7 +190,7 @@ public class Chart extends AppCompatActivity {
                 .anchor(Anchor.CENTER_BOTTOM)
                 .offsetX(0d)
                 .offsetY(5d)
-                .format("ml{%Value}{groupsSeparator: }");
+                .format("ml {%Value}{groupsSeparator: }");
 
         cartesian.animation(true);
         cartesian.title("Recent 5 days water intake");
