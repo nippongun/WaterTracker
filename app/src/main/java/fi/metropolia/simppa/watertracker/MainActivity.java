@@ -48,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
     int waterGoal = 2500; //For circle chart
     private DailyGoal goal = new DailyGoal(2500); //to obtain updated Daily Goal
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("test", "onCreate");
@@ -134,14 +130,6 @@ public class MainActivity extends AppCompatActivity {
                 UnitViewModel waterViewModel = new ViewModelProvider(MainActivity.this).get(UnitViewModel.class);
                 UnitViewModel uvm = new UnitViewModel(getApplication());
                 String[] unitName = spinner.getSelectedItem().toString().split(" ");
-//                String[] unitName = new String[2];
-////                if(string.length > 2){
-////                    for (int i = 0; i < string.length; i++){
-////                        unitName[0] += string[i];
-////                    }
-////                }else {
-////                    unitName = string;
-////                }
                 Log.d("MAIN", "what? " + unitName[0]);
                 //UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
                 if (!unitName[0].equals("SELECT")){
@@ -240,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(this, DailyGoalActivity.class);
         } else if (view.getId() == b4.getId()) {
             intent= new Intent(this, Chart.class);
+            startActivity(intent);
         }
         startActivity(intent);
     }
