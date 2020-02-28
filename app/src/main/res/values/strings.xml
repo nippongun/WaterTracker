@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WaterTracker</string>
     <string name="isEmpty">Unit not saved because it is empty</string>
-
+    <string name="daily_goal_isEmpty">Daily goal not saved because it is empty</string>
     //activity_goal.xml
     <string name="daily_goal">Daily goal</string>
     <string name="current_goal">Current goal</string>

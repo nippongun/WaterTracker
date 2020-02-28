@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/unitName"
+            android:id="@+id/textEdit_unitname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/backgroundLite"
@@ -27,7 +27,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/volume"
+            android:id="@+id/textEdit_volume"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -38,7 +38,7 @@
             android:textAlignment="center" />
 
         <Button
-            android:id="@+id/addUnit"
+            android:id="@+id/button_addUnit"
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"

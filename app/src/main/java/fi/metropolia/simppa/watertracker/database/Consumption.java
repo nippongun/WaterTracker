@@ -18,24 +18,24 @@ import static androidx.room.ForeignKey.CASCADE;
 public class Consumption {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "primary_key")
-    private int primaryKey;
+    private long primaryKey;
     @ColumnInfo(name = "foreign_unit_key")
-    private int foreigenUnitKey;
+    private long foreigenUnitKey;
 
     @TypeConverters({Converters.class})
     @ColumnInfo(name = "timestamp")
     private Date timeStamp;
 
-    public Consumption(int foreigenUnitKey, Date timeStamp){
+    public Consumption(long foreigenUnitKey, Date timeStamp){
         this.foreigenUnitKey = foreigenUnitKey;
         this.timeStamp = timeStamp;
     }
 
-    public int getForeigenUnitKey() {
+    public long getForeigenUnitKey() {
         return foreigenUnitKey;
     }
 
-    public int getPrimaryKey() {
+    public long getPrimaryKey() {
         return primaryKey;
     }
 
@@ -43,11 +43,11 @@ public class Consumption {
         return timeStamp;
     }
 
-    public void setForeigenUnitKey(int foreigenUnitKey) {
+    public void setForeigenUnitKey(long foreigenUnitKey) {
         this.foreigenUnitKey = foreigenUnitKey;
     }
 
-    public void setPrimaryKey(int primaryKey) {
+    public void setPrimaryKey(long primaryKey) {
         this.primaryKey = primaryKey;
     }
 
