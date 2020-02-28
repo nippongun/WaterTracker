@@ -106,8 +106,14 @@ public class MainActivity extends AppCompatActivity {
                     unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, unitNameList);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_unit_style, unitNameList);
+
+
+
+
+                adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
                 spinner = findViewById(R.id.main_spinner_chooseUnit);
 
                 spinner.setAdapter(adapter);
@@ -125,7 +131,9 @@ public class MainActivity extends AppCompatActivity {
         * */
         spinner = findViewById(R.id.main_spinner_chooseUnit);
 
+
         spinner.setSelection(0);
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
