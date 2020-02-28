@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fi.metropolia.simppa.watertracker.database.Consumption;
+import fi.metropolia.simppa.watertracker.database.ConsumptionViewModel;
 import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
 
@@ -44,7 +45,7 @@ public class AllDrinkList extends AppCompatActivity {
 
         if(intentValue.equals("all")){
 
-            UnitViewModel viewModel= new ViewModelProvider(this).get(UnitViewModel.class);
+            ConsumptionViewModel viewModel= new ViewModelProvider(this).get(ConsumptionViewModel.class);
             viewModel.getAllConsumption().observe(this,new Observer<List<Consumption>>() {
                 @Override
                 public void onChanged(List<Consumption> consumptions) {

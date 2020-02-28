@@ -26,7 +26,7 @@ public abstract class UnitDatabase extends RoomDatabase {
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriterExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    static UnitDatabase getDatabase(final Context context){
+    public static UnitDatabase getDatabase(final Context context){
         if(INSTANCE == null){
             synchronized (UnitDatabase.class){
                 if (INSTANCE == null){
@@ -46,7 +46,9 @@ public abstract class UnitDatabase extends RoomDatabase {
             databaseWriterExecutor.execute(() -> {
                 UnitDao dao = INSTANCE.unitDao();
                 //dao.deleteAll();
-                Unit unit = new Unit("standard", 500);
+                Unit unit = new Unit("SELECT AN ITEM", 0);
+                dao.insertUnit(unit);
+                unit = new Unit("standard", 500);
                 dao.insertUnit(unit);
                 unit = new Unit("henlö", 333);
                 dao.insertUnit(unit);
@@ -59,7 +61,7 @@ public abstract class UnitDatabase extends RoomDatabase {
                 //add a consumption record
                 Date date= Calendar.getInstance().getTime();
                 Consumption consumption= new Consumption(1,date);
-                dao.insertConsupmtion(consumption);
+                dao.insertConsumption(consumption);
 
             });
         }
