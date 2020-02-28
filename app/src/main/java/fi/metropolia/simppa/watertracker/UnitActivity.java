@@ -42,11 +42,15 @@ public class UnitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent replyIntent = new Intent();
+                // If one of text fields are empty
                 if(TextUtils.isEmpty(volume.getText()) || TextUtils.isEmpty(unitName.getText())){
                      setResult(RESULT_CANCELED, replyIntent);
+                     // send the message CANCELED, which do not insert any unit to the db
                 } else {
+                    // otherwise prepare to send the data to
                     strUnitName = unitName.getText().toString();
                     strVolume = volume.getText().toString();
+                    // put the name and volme into a message.
                     replyIntent.putExtra(EXTRA_MESSAGE_UNIT_NAME, strUnitName );
                     replyIntent.putExtra(EXTRA_MESSAGE_VOLUME, Integer.parseInt(strVolume) );
                     setResult(RESULT_OK, replyIntent);

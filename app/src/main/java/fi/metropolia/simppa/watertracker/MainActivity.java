@@ -221,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Long id) {
             super.onPostExecute(id);
             //new id exist :)
+            spinner.setSelection(0);
             Intent intent = new Intent(MainActivity.this, AllDrinkList.class);
             intent.putExtra("message", "all");
             startActivity(intent);
@@ -229,12 +230,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onButton(View view) {
+
         if (view.getId() == b2.getId()) {
             intent = new Intent(this, ShowList.class);
         } else if (view.getId() == b3.getId()) {
             intent = new Intent(this, DailyGoalActivity.class);
         } else if (view.getId() == b4.getId()) {
-            Intent intent = new Intent(this, Chart.class);
+
+            intent= new Intent(this, Chart.class);
+
             startActivity(intent);
         }
         startActivity(intent);
@@ -290,7 +294,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Integer doInBackground(Date... dates) {
-
             if (viewModel.selectVolumeByDate(dates[0], dates[1]) == null){
                 return 0;
             }else{
