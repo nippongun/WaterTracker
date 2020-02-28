@@ -101,11 +101,13 @@ public class MainActivity extends AppCompatActivity {
                 unitNameList.clear();
                 int i= 0;
                 for (Unit unit : units) {
+
                     if(i==0){
                         i++;
                         unitNameList.add(unit.getUnitName());
                         continue;
                     }
+
                     unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
                 }
 
@@ -294,11 +296,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Integer doInBackground(Date... dates) {
-            if (viewModel.selectVolumeByDate(dates[0], dates[1]) == null){
-                return 0;
-            }else{
-                return viewModel.selectVolumeByDate(dates[0], dates[1]);
-            }
+
+
+                    if(viewModel.selectVolumeByDate(dates[0],dates[1])==null){
+                        return 0;
+                    }else {
+                        return viewModel.selectVolumeByDate(dates[0], dates[1]);
+                    }
+
         }
 
     }
