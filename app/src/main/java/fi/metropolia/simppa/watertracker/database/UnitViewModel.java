@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.Date;
 import java.util.List;
 
 public class UnitViewModel extends AndroidViewModel {
@@ -31,8 +32,14 @@ public class UnitViewModel extends AndroidViewModel {
     public LiveData<List<Unit>> getUnitList(){return unitList;}
 
     public void insertUnit(Unit unit) {repository.insertUnit(unit);}
-
+  
     /*public void insertConsumption(Consumption con){
         repository.insertConsumption(con);
     }*/
+
+
+    public Integer selectVolumeByDate(Date from,Date to){
+        return repository.selectVolumeByDate(from,to);
+
+    }
 }

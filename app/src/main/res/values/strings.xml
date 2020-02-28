@@ -12,4 +12,5 @@
     <string name="select_drink">Select a drink to record</string>
     <string name="consumed_today">1500 ml out of 2500 ml</string>
     <string name="cnnonsumed_today">1500 ml out of 2500 ml</string>
+    <string name="showChartButton">Show Chart</string>
 </resources>

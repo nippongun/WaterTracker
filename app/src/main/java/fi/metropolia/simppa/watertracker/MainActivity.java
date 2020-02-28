@@ -2,6 +2,7 @@ package fi.metropolia.simppa.watertracker;
 
 import fi.metropolia.simppa.watertracker.database.Consumption;
 import fi.metropolia.simppa.watertracker.database.ConsumptionViewModel;
+import fi.metropolia.simppa.watertracker.database.Converters;
 import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitDatabase;
 import fi.metropolia.simppa.watertracker.database.UnitListAdapter;
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     private DailyGoal goal = new DailyGoal(2500); //to obtain updated Daily Goal
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("test", "onCreate");
@@ -59,6 +63,28 @@ public class MainActivity extends AppCompatActivity {
 
         String defaultTextForSpinner = "text here";
         //spinner.setAdapter(new CustomSpinnerAdapter(this, R.layout.spinner_row, arrayForSpinner, defaultTextForSpinner));
+
+
+        getVolume gv= new getVolume();
+
+        //get today's year month and day then set Date from as the bigining of the day, Date to as the end of the day.
+        int year=Calendar.getInstance().get(Calendar.YEAR);
+        int month= Calendar.getInstance().get(Calendar.MONTH);
+        int day=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(0);
+        cal.set(year,month,day,0,0,0);
+        Date from=cal.getTime();
+
+
+
+        cal.set(year,month,day,23,59,59);
+        Date to=cal.getTime();
+
+        //get the whole day's volume and set to chart
+        gv.execute(from,to);
+
+
 
 
         /*
@@ -79,9 +105,11 @@ public class MainActivity extends AppCompatActivity {
                 for (Unit unit : units) {
                     unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
                 }
+
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, unitNameList);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner = findViewById(R.id.main_spinner_chooseUnit);
+
                 spinner.setAdapter(adapter);
             }
         });//end of unitViewModel.getUnitList().observe
@@ -96,7 +124,9 @@ public class MainActivity extends AppCompatActivity {
         for the next activity to know it needs to show the full list. then start the intent.
         * */
         spinner = findViewById(R.id.main_spinner_chooseUnit);
+
         spinner.setSelection(0);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -115,13 +145,57 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });//end of the spinner listener
     }
 
     @Override
     public void onResume() {
         super.onResume();
         updateChart();
+
+        getVolume gv= new getVolume();
+
+
+        int year=Calendar.getInstance().get(Calendar.YEAR);
+        int month= Calendar.getInstance().get(Calendar.MONTH);
+        int day=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(0);
+        cal.set(year,month,day,0,0,0);
+        Date from=cal.getTime();
+
+
+
+        cal.set(year,month,day,23,59,59);
+        Date to=cal.getTime();
+
+        //get the whole day's volume and set to chart
+        gv.execute(from,to);
+
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        getVolume gv= new getVolume();
+
+
+        int year=Calendar.getInstance().get(Calendar.YEAR);
+        int month= Calendar.getInstance().get(Calendar.MONTH);
+        int day=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(0);
+        cal.set(year,month,day,0,0,0);
+        Date from=cal.getTime();
+
+
+
+        cal.set(year,month,day,23,59,59);
+        Date to=cal.getTime();
+
+        //get the whole day's volume and set to chart
+        gv.execute(from,to);
     }
 
     public class InsertConsumption extends AsyncTask<String, Void, Long> {
@@ -154,20 +228,19 @@ public class MainActivity extends AppCompatActivity {
         } else if (view.getId() == b3.getId()) {
             intent = new Intent(this, DailyGoalActivity.class);
         } else if (view.getId() == b4.getId()) {
-            Log.d("TEST", "stats button clicked");
-            intent = new Intent(this, StatisticsActivity.class);
-            Log.d("TEST", "stats activity started");
+            Intent intent= new Intent(this, Chart.class);
+            startActivity(intent);
         }
         startActivity(intent);
     }
 
     //this function should be changed once we know daily consumption; also field and button from activity_main should be removed
-    public void addBurned(View v) {
+   /* public void addBurned(View v) {
         // Get the new value from a user input and update:
         EditText burnedEditText = findViewById(R.id.burned);
         todayConsumption = Integer.parseInt(burnedEditText.getText().toString());
         updateChart();
-    }
+    }*/
 
     //update circle chart
     private void updateChart() {
@@ -189,6 +262,37 @@ public class MainActivity extends AppCompatActivity {
         pieChart.setProgress(progress);
         percentageTextView.setText(String.valueOf(progress) + "%");
         Log.d("TEST", String.valueOf(todayGoal));
+    }
+
+
+
+
+
+
+    /**
+     * Search volume by day then in the onpostExecute method update the todayConsumption first then
+     * performe updatechart()
+     * */
+    public class getVolume extends AsyncTask<Date, Integer, Integer> {
+        UnitViewModel viewModel = new ViewModelProvider(MainActivity.this).get(UnitViewModel.class);
+
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            Log.d("chart", "in main"+integer);
+            todayConsumption=integer;
+            updateChart();
+            Log.d("chart", "in main today"+integer);
+
+        }
+
+        @Override
+        protected Integer doInBackground(Date... dates) {
+
+
+            return viewModel.selectVolumeByDate(dates[0],dates[1]);
+        }
+
     }
 
 

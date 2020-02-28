@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AllDrinkList"></activity>
+        <activity android:name=".Chart"></activity>
+        <activity android:name=".AllDrinkList"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".ConsumptionActivity" />
         <activity
-
             android:name=".DailyGoalActivity"
             android:parentActivityName=".MainActivity"/>
 
@@ -23,6 +24,7 @@
         <activity
             android:name=".UnitActivity"
             android:parentActivityName=".ShowList"/>
+
         <activity android:name=".StatisticsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
