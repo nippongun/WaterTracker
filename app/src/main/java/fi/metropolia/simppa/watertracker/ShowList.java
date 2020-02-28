@@ -45,7 +45,7 @@ public class ShowList extends AppCompatActivity {
         unitViewModel.getUnitList().observe(this, new Observer<List<Unit>>() {
             @Override
             public void onChanged(@Nullable final List<Unit> units) {
-                adapter.setUnits(units.subList(1,units.size()-1));
+                adapter.setUnits(units.subList(0,units.size()));
             }
         });
 
@@ -62,7 +62,7 @@ public class ShowList extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-
+        // handle the data and requests
         if(requestCode == NEW_UNIT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             Unit unit = new Unit(data.getStringExtra(UnitActivity.EXTRA_MESSAGE_UNIT_NAME)
                     ,data.getIntExtra(UnitActivity.EXTRA_MESSAGE_VOLUME,0));
