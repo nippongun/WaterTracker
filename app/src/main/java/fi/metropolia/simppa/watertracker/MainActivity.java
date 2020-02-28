@@ -99,7 +99,13 @@ public class MainActivity extends AppCompatActivity {
 
                 //empty the list so every item are not populate again and again
                 unitNameList.clear();
+                int i= 0;
                 for (Unit unit : units) {
+                    if(i==0){
+                        i++;
+                        unitNameList.add(unit.getUnitName());
+                        continue;
+                    }
                     unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
                 }
 
