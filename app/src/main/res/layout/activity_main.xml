@@ -44,40 +44,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:onClick="onButton"
-        android:text="Add entry"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_spinner_chooseUnit" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/bottle"
-        android:backgroundTint="@color/icon"
-        android:onClick="onButton"
-        app:layout_constraintBaseline_toBaselineOf="@+id/setDailyGoalButton"
-        app:layout_constraintEnd_toStartOf="@+id/setDailyGoalButton"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/setDailyGoalButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@drawable/ic_settings_black_24dp"
-        android:onClick="onButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_spinner_chooseUnit" />
-
     <ProgressBar
         android:id="@+id/background_progressbar"
         style="?android:attr/progressBarStyleHorizontal"
@@ -124,26 +90,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/todayTextView" />
-
-    <EditText
-        android:id="@+id/burned"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="Cons."
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="addBurned"
-        android:text="Add"
-        app:layout_constraintStart_toEndOf="@+id/burned"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
