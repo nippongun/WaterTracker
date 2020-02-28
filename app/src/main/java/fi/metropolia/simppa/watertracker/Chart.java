@@ -79,11 +79,6 @@ public class Chart extends AppCompatActivity {
             cal.add(Calendar.DATE, -1);
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(4)));
             chartRendering(data);
-
-
-
-
-
         }
 
         @Override
