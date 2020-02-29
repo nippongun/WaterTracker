@@ -1,7 +1,6 @@
 package fi.metropolia.simppa.watertracker;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,9 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class DailyGoalActivity extends AppCompatActivity {
-    //public static final String MESSAGE = "com.example.myfirstapp.MESSAGE";
     private DailyGoal goal = new DailyGoal(0);
 
+    /**
+     * @onCreate 1. Displays current daily goal
+     * 2. Collects users input about modified daily goal
+     * 3. Saves the new value in shared preference
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +39,9 @@ public class DailyGoalActivity extends AppCompatActivity {
         setButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                if(TextUtils.isEmpty(editGoal.getText())){
+                if (TextUtils.isEmpty(editGoal.getText())) {
                     setResult(RESULT_CANCELED);
-                    Toast.makeText(getApplicationContext(),R.string.daily_goal_isEmpty, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.daily_goal_isEmpty, Toast.LENGTH_LONG).show();
                 } else {
                     String message = editGoal.getText().toString();
                     goal.setDailygoal(Integer.parseInt(message));
@@ -68,25 +71,6 @@ public class DailyGoalActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        //hideNavigationBar();
-
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //hideNavigationBar();
-    }
-
-    /** private void hideNavigationBar() {
-     this.getWindow().getDecorView()
-     .setSystemUiVisibility(
-     View.SYSTEM_UI_FLAG_FULLSCREEN |
-     View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-     View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
-     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-     View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-     }*/
 }
+

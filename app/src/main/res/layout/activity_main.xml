@@ -16,15 +16,11 @@
         android:layout_height="55dp"
         android:layout_marginTop="32dp"
         android:layout_weight="4"
-
         android:background="@drawable/custom_button"
-        android:prompt="@string/select_drink"
-
         android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/background_progressbar"
-
         />
 
 
@@ -36,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:fontFamily="@font/pontano_sans"
-        android:text="Record consumption"
+        android:text="@string/spinnerHeader"
         android:textColor="@color/icon"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/main_spinner_chooseUnit"
@@ -58,6 +54,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusUpdateTextView" />
 
+
+
     <ProgressBar
         android:id="@+id/stats_progressbar"
         style="?android:attr/progressBarStyleHorizontal"
@@ -72,31 +70,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusUpdateTextView" />
 
-    <!-- Doughnut chart ends here -->
-
-
-    <!-- Temporary stuff for testing circle chart -->
-
-    <TextView
-        android:id="@+id/statusUpdateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/pontano_sans"
-
-        android:text="@string/consumed_today"
-        android:textColor="@color/icon"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/todayTextView" />
-
-
     <TextView
         android:id="@+id/percentageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="50%"
+        android:text="@string/percentage"
         android:textColor="@color/icon"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@+id/background_progressbar"
@@ -104,13 +82,28 @@
         app:layout_constraintStart_toStartOf="@+id/background_progressbar"
         app:layout_constraintTop_toTopOf="@+id/background_progressbar" />
 
+    <!-- Doughnut chart ends here -->
+
+    <TextView
+        android:id="@+id/statusUpdateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/pontano_sans"
+        android:text="@string/consumed_today"
+        android:textColor="@color/icon"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/todayTextView" />
+
     <TextView
         android:id="@+id/todayTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/pontano_sans"
-        android:text="Today"
+        android:text="@string/header"
         android:textColor="@color/icon"
         android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@+id/statusUpdateTextView"
@@ -138,6 +131,7 @@
         android:onClick="onButton"
         app:layout_constraintBaseline_toBaselineOf="@+id/button_dailygoal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toEndOf="@+id/button_dailygoal" />
 
     <Button
@@ -149,6 +143,7 @@
         android:onClick="onButton"
         app:layout_constraintBaseline_toBaselineOf="@+id/button_dailygoal"
         app:layout_constraintEnd_toStartOf="@+id/button_dailygoal"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -156,12 +151,14 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/ic_settings_black_24dp"
         android:onClick="onButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline" />
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintVertical_bias="0.8" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

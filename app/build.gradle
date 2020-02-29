@@ -47,5 +47,6 @@ dependencies {
 
 // Testing
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
+    testImplementation 'junit:junit:4.12'
 
 }

@@ -1,18 +1,12 @@
 package fi.metropolia.simppa.watertracker;
 
 import fi.metropolia.simppa.watertracker.database.Consumption;
-import fi.metropolia.simppa.watertracker.database.ConsumptionViewModel;
-import fi.metropolia.simppa.watertracker.database.Converters;
 import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitDatabase;
-import fi.metropolia.simppa.watertracker.database.UnitListAdapter;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Database;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.app.Activity;
@@ -24,30 +18,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 public class MainActivity extends AppCompatActivity {
-    Button b1, b2, b3, b4;
+    Button b2, b3, b4;
     int todayConsumption = 0; //For circle chart
     int todayGoal; //For circle chart
     Intent intent;
     private ArrayList<String> unitNameList = new ArrayList<>();
     private Spinner spinner;
-    private boolean isinitial = true;
-
-    int waterConsumed = 0; //For circle chart
-    int waterGoal = 2500; //For circle chart
-    private DailyGoal goal = new DailyGoal(2500); //to obtain updated Daily Goal
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +43,7 @@ public class MainActivity extends AppCompatActivity {
         b3 = findViewById(R.id.button_dailygoal);
         b4 = findViewById(R.id.button_stats);
 
-        String defaultTextForSpinner = "text here";
-        //spinner.setAdapter(new CustomSpinnerAdapter(this, R.layout.spinner_row, arrayForSpinner, defaultTextForSpinner));
-
-
-        getVolume gv = new getVolume();
+       getVolume gv = new getVolume();
 
         //get today's year month and day then set Date from as the bigining of the day, Date to as the end of the day.
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -112,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_unit_style, unitNameList);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.spinner_unit_style, unitNameList);
 
 
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
@@ -140,8 +120,6 @@ public class MainActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                UnitViewModel waterViewModel = new ViewModelProvider(MainActivity.this).get(UnitViewModel.class);
-                UnitViewModel uvm = new UnitViewModel(getApplication());
                 String[] unitName = spinner.getSelectedItem().toString().split(" ");
                 Log.d("MAIN", "what? " + unitName[0]);
                 //UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
@@ -207,9 +185,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class InsertConsumption extends AsyncTask<String, Void, Long> {
-        UnitViewModel viewModel = new ViewModelProvider(MainActivity.this).get(UnitViewModel.class);
-
-        @Override
+                @Override
         protected Long doInBackground(String... drinks) {
             UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
             Consumption consumption = new Consumption(db.unitDao().getUnitByName(drinks[0]).getPrimaryKey(), Calendar.getInstance().getTime());
@@ -238,10 +214,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (view.getId() == b3.getId()) {
             intent = new Intent(this, DailyGoalActivity.class);
         } else if (view.getId() == b4.getId()) {
-
             intent= new Intent(this, Chart.class);
-
-            startActivity(intent);
         }
         startActivity(intent);
     }
@@ -265,17 +238,16 @@ public class MainActivity extends AppCompatActivity {
         // Update the texts "consumed out of goal" and "XX%"
         TextView statusUpdateTextView = findViewById(R.id.statusUpdateTextView);
         TextView percentageTextView = findViewById(R.id.percentageTextView);
-        statusUpdateTextView.setText(String.valueOf(todayConsumption) + " ml out of " + String.valueOf(todayGoal) + " ml");
+        statusUpdateTextView.setText((todayConsumption) + " ml out of " + String.valueOf(todayGoal) + " ml");
 
         // Calculate the slice size and update the pie chart:
         ProgressBar pieChart = findViewById(R.id.stats_progressbar);
         double d = (double) todayConsumption / (double) todayGoal;
         int progress = (int) (d * 100);
         pieChart.setProgress(progress);
-        percentageTextView.setText(String.valueOf(progress) + "%");
+        percentageTextView.setText((progress) + "%");
         Log.d("TEST", String.valueOf(todayGoal));
     }
-
 
     /**
      * Search volume by day then in the onpostExecute method update the todayConsumption first then
@@ -284,29 +256,21 @@ public class MainActivity extends AppCompatActivity {
     public class getVolume extends AsyncTask<Date, Integer, Integer> {
         UnitViewModel viewModel = new ViewModelProvider(MainActivity.this).get(UnitViewModel.class);
 
-
         @Override
         protected void onPostExecute(Integer integer) {
             Log.d("chart", "in main" + integer);
             todayConsumption = integer;
             updateChart();
             Log.d("chart", "in main today" + integer);
-
         }
 
         @Override
         protected Integer doInBackground(Date... dates) {
-
-
                     if(viewModel.selectVolumeByDate(dates[0],dates[1])==null){
                         return 0;
                     }else {
                         return viewModel.selectVolumeByDate(dates[0], dates[1]);
                     }
-
         }
-
     }
-
-
 }
