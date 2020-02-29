@@ -62,29 +62,38 @@ public class AllDrinkList extends AppCompatActivity {
                                 Log.d("my", "size of itemList" + itemList.size());
                                 Log.d("my", "size of volume" + volumList.size());
 
-                                //from Patricie: this should order the consumption list by date. Next time we can try OO :)
-                                //https://www.dreamincode.net/forums/topic/348658-linking-elements-of-two-arraylists-together-for-a-bubble-sort/
-
-                                String tempName;  //temp variable for name sort
-                                String tempGrade; //temp variable for grade sort
-
-                                //Last name comparison block.
-                                for (int x = 0; x < itemList.size() - 1; x++)  //Outer for loop
+                                // Bug fix from Patricie: delete the dummy entry or any other 0 volume entry from the list
+                                for (int i = 0; i < itemList.size() - 1; i++) //Inner for loop
                                 {
-                                    for (int i = 0; i < itemList.size() - 1; i++) //Inner for loop
+                                    // Delete entries with volem = 0
+                                    if (volumList.get(i).equals("0 ml"))   //Comparison If. Is I+1 greater than I?
                                     {
-                                        if (itemList.get(i).compareTo(itemList.get(i + 1)) < 0)   //Comparison If. Is I+1 greater than I?
-                                        {
-                                            //sort by date
-                                            tempName = itemList.get(i);           //put top element in temp
-                                            itemList.set(i, itemList.get(i + 1)); //put second element in top slot
-                                            itemList.set(i + 1, tempName);          //put top element in 2nd slot
+                                        //delete from entries
+                                        itemList.remove(i);
+                                        volumList.remove(i);
+                                    }
+                                }
+                                //End of bug fix
 
-                                            //Same as above, but put here to keep students names and grades together.
-                                            tempGrade = volumList.get(i);
-                                            volumList.set(i, volumList.get(i + 1));
-                                            volumList.set(i + 1, tempGrade);
-                                        }
+                                //Bug fix from Patricie: this should order the consumption list by date. Next time we can try OO programming instead :)
+                                //https://www.dreamincode.net/forums/topic/348658-linking-elements-of-two-arraylists-together-for-a-bubble-sort/
+                                String tempName;  //temp variable for name sort
+                                String tempVolume; //temp variable for grade sortfor (int x = 0; x < itemList.size() - 1; x++)  //Outer for loop
+
+                                for (int i = 0; i < itemList.size() - 1; i++) //Inner for loop
+                                {
+                                    //Sort lists by date
+                                    if (itemList.get(i).compareTo(itemList.get(i + 1)) < 0)   //Comparison If. Is I+1 greater than I?
+                                    {
+                                        //dates list
+                                        tempName = itemList.get(i);           //put top element in temp
+                                        itemList.set(i, itemList.get(i + 1)); //put second element in top slot
+                                        itemList.set(i + 1, tempName);          //put top element in 2nd slot
+
+                                        //and in the same way volumes list
+                                        tempVolume = volumList.get(i);
+                                        volumList.set(i, volumList.get(i + 1));
+                                        volumList.set(i + 1, tempVolume);
                                     }
                                 }
                                 //End of sorting
