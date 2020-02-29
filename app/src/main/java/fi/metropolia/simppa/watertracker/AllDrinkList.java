@@ -63,9 +63,9 @@ public class AllDrinkList extends AppCompatActivity {
                                 Log.d("my", "size of volume" + volumList.size());
 
                                 // Bug fix from Patricie: delete the dummy entry or any other 0 volume entry from the list
-                                for (int i = 0; i < itemList.size() - 1; i++) //Inner for loop
+                                for (int i = 0; i < volumList.size(); i++) //Inner for loop
                                 {
-                                    // Delete entries with volem = 0
+                                    // Delete entries with volume = 0
                                     if (volumList.get(i).equals("0 ml"))   //Comparison If. Is I+1 greater than I?
                                     {
                                         //delete from entries
@@ -80,7 +80,7 @@ public class AllDrinkList extends AppCompatActivity {
                                 String tempName;  //temp variable for name sort
                                 String tempVolume; //temp variable for grade sortfor (int x = 0; x < itemList.size() - 1; x++)  //Outer for loop
 
-                                for (int i = 0; i < itemList.size() - 1; i++) //Inner for loop
+                                for (int i = 0; i < itemList.size()-1; i++) //Inner for loop
                                 {
                                     //Sort lists by date
                                     if (itemList.get(i).compareTo(itemList.get(i + 1)) < 0)   //Comparison If. Is I+1 greater than I?
