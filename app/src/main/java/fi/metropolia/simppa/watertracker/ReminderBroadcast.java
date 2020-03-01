@@ -30,7 +30,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
 
         if (progress > 20) {// if by 14:00
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyUser")
-                 .setSmallIcon(R.drawable.logo_background)
+                 .setSmallIcon(R.drawable.logo_large)
                 .setContentTitle("Today you drank " + progress + " % of your daily goal.")
                 .setContentText("You are on a good track!") //one liner
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -42,7 +42,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
 
         else {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyUser")
-                    .setSmallIcon(R.drawable.logo_background)
+                    .setSmallIcon(R.drawable.logo_large)
                     .setContentTitle("You drank " + progress + " % of your daily goal today.")
                     .setContentText("Make a new record. Remember to take your water bottle everywhere with you") //one liner
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
