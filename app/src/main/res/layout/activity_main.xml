@@ -9,42 +9,42 @@
     tools:layout_editor_absoluteY="25dp">
 
 
-    <Spinner
-        android:id="@+id/main_spinner_chooseUnit"
-        style="@android:style/Widget.Spinner"
-        android:layout_width="315dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="32dp"
-        android:layout_weight="4"
-        android:background="@drawable/custom_button"
-        android:spinnerMode="dialog"
+    <TextView
+        android:id="@+id/todayTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/pontano_sans"
+        android:text="@string/header"
+        android:textColor="@color/icon"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/statusUpdateTextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/background_progressbar"
-        />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <!-- The text that goes in a center of the chart -->
 
     <TextView
-        android:id="@+id/selectDrinkTextView"
+        android:id="@+id/statusUpdateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/pontano_sans"
-        android:text="@string/spinnerHeader"
+        android:text="@string/consumed_today"
         android:textColor="@color/icon"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/main_spinner_chooseUnit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/todayTextView" />
 
     <ProgressBar
         android:id="@+id/background_progressbar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_marginTop="16dp"
         android:indeterminate="false"
         android:max="100"
@@ -55,12 +55,11 @@
         app:layout_constraintTop_toBottomOf="@+id/statusUpdateTextView" />
 
 
-
     <ProgressBar
         android:id="@+id/stats_progressbar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_marginTop="16dp"
         android:indeterminate="false"
         android:max="100"
@@ -76,7 +75,7 @@
         android:layout_height="wrap_content"
         android:text="@string/percentage"
         android:textColor="@color/icon"
-        android:textSize="36sp"
+        android:textSize="60sp"
         app:layout_constraintBottom_toBottomOf="@+id/background_progressbar"
         app:layout_constraintEnd_toEndOf="@+id/background_progressbar"
         app:layout_constraintStart_toStartOf="@+id/background_progressbar"
@@ -85,42 +84,31 @@
     <!-- Doughnut chart ends here -->
 
     <TextView
-        android:id="@+id/statusUpdateTextView"
+        android:id="@+id/selectDrinkTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
         android:fontFamily="@font/pontano_sans"
-        android:text="@string/consumed_today"
+        android:text="@string/spinnerHeader"
         android:textColor="@color/icon"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/todayTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/background_progressbar" />
 
-    <TextView
-        android:id="@+id/todayTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/pontano_sans"
-        android:text="@string/header"
-        android:textColor="@color/icon"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/statusUpdateTextView"
+    <Spinner
+        android:id="@+id/main_spinner_chooseUnit"
+        style="@android:style/Widget.Spinner"
+        android:layout_width="315dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="4"
+        android:background="@drawable/custom_button"
+        android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="400dp"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/selectDrinkTextView" />
 
     <Button
         android:id="@+id/button_stats"
@@ -131,7 +119,6 @@
         android:onClick="onButton"
         app:layout_constraintBaseline_toBaselineOf="@+id/button_dailygoal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toEndOf="@+id/button_dailygoal" />
 
     <Button
@@ -143,22 +130,29 @@
         android:onClick="onButton"
         app:layout_constraintBaseline_toBaselineOf="@+id/button_dailygoal"
         app:layout_constraintEnd_toStartOf="@+id/button_dailygoal"
-        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_dailygoal"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/ic_settings_black_24dp"
         android:onClick="onButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintTop_toBottomOf="@+id/main_spinner_chooseUnit"
+        app:layout_constraintVertical_bias="0.85" />
+
+    <Button
+        android:id="@+id/dummy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onButton"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

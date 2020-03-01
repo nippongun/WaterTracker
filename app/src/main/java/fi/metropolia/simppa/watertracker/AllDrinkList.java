@@ -75,7 +75,7 @@ public class AllDrinkList extends AppCompatActivity {
                                 }
                                 //End of bug fix
 
-                                //Bug fix from Patricie: this should order the consumption list by date. Next time we can try OO programming instead :)
+                                //Bug fix from Patricie: this should order the consumption list by date.
                                 //https://www.dreamincode.net/forums/topic/348658-linking-elements-of-two-arraylists-together-for-a-bubble-sort/
                                 String tempName;  //temp variable for name sort
                                 String tempVolume; //temp variable for grade sortfor (int x = 0; x < itemList.size() - 1; x++)  //Outer for loop

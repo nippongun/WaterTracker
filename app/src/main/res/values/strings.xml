@@ -25,4 +25,7 @@
     <string name="volume">VOLUME</string>
     <string name="create">CREATE</string>
 
+    //Notifications
+    <string name="channel_name">Reminder</string>
+    <string name="channel_description">Updates user on how much they drank and makes suggestions</string>
 </resources>
