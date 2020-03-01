@@ -111,7 +111,7 @@
         app:layout_constraintTop_toBottomOf="@+id/selectDrinkTextView" />
 
     <Button
-        android:id="@+id/button_stats"
+        android:id="@+id/button_chart"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@drawable/stats"
@@ -144,15 +144,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_spinner_chooseUnit"
         app:layout_constraintVertical_bias="0.85" />
-
-    <Button
-        android:id="@+id/dummy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onButton"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

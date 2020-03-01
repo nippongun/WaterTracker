@@ -4,9 +4,10 @@ import fi.metropolia.simppa.watertracker.database.Consumption;
 import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitDatabase;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
+
 import android.content.SharedPreferences;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,10 +18,8 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,10 +34,9 @@ import java.util.List;
 
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Button b2, b3, b4, dummy;
+    Button addUnitButton, dailyGoalButton, chartButton;
     int todayConsumption = 0; //For circle chart
     int todayGoal; //For circle chart
     Intent intent;
@@ -51,36 +49,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        b2 = findViewById(R.id.button_addunit);
-        b3 = findViewById(R.id.button_dailygoal);
-        b4 = findViewById(R.id.button_stats);
-        /**dummy = findViewById(R.id.dummy);
-
-        dummy.setOnClickListener(v ->  {
-            Toast.makeText(this, "Reminder Set!", Toast.LENGTH_SHORT).show();
-         **/
+        addUnitButton = findViewById(R.id.button_addunit);
+        dailyGoalButton = findViewById(R.id.button_dailygoal);
+        chartButton = findViewById(R.id.button_chart);
 
         //Set notifications
-            Intent intent = new Intent(MainActivity.this, ReminderBroadcast.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-           /** long timeAtButtonClick = System.currentTimeMillis();
-            long twoSecondsMillis = 1000 * 2;
-            alarmManager.set(AlarmManager.RTC_WAKEUP,
-                   timeAtButtonClick + twoSecondsMillis,
-                    pendingIntent);**/
+        Intent intent = new Intent(MainActivity.this, ReminderBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-            //Set the alarm to start at approximately 2:00 p.m.
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 14);
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-            AlarmManager.INTERVAL_DAY, pendingIntent);
-//End of notifications
-
-        //});
-
+        //Set the alarm to start at approximately 2:00 p.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 14);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
         createNotificationChannel();
+        //End of notifications
+
+
+
 
         getVolume gv = new getVolume();
 
@@ -173,16 +161,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });//end of the spinner listener
-
-
-
-
-        //2. Notification on-tap intent
-        // Create an explicit intent for an Activity in your app
-        /**Intent intent = new Intent(this, MainActivity.class);
-         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-         **/
     }
 
     @Override
@@ -258,23 +236,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void onButton(View view) {
 
-        if (view.getId() == b2.getId()) {
+        if (view.getId() == addUnitButton.getId()) {
             intent = new Intent(this, ShowList.class);
-        } else if (view.getId() == b3.getId()) {
+        } else if (view.getId() == dailyGoalButton.getId()) {
             intent = new Intent(this, DailyGoalActivity.class);
-        } else if (view.getId() == b4.getId()) {
+        } else if (view.getId() == chartButton.getId()) {
             intent = new Intent(this, Chart.class);
         }
         startActivity(intent);
     }
 
-    private void createNotificationChannel () {
+    private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("notifyUser", "Reminders", NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
@@ -337,6 +314,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-//Todo: Notifications
 //Todo: Splashscreen
 //Todo: Add-hoc input
