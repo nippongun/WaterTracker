@@ -45,7 +45,9 @@ public class Chart extends AppCompatActivity {
 
 
 
-
+    /**
+     * to find out the volume by date.
+     * **/
 
     public class getVolume extends AsyncTask<Date, Void, List<Integer>> {
 
@@ -130,7 +132,9 @@ public class Chart extends AppCompatActivity {
 
 
 
-
+    /**
+     * start everything
+     * **/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

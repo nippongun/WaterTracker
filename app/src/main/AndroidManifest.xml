@@ -9,29 +9,37 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Chart" />
-        <activity android:name=".AllDrinkList"
+        <activity android:name=".Splash"
+            android:noHistory="true">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
+        <activity
+            android:name=".Chart"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".AllDrinkList"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ConsumptionActivity" />
         <activity
             android:name=".DailyGoalActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ShowList"
-            android:parentActivityName=".MainActivity"/>
-
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".UnitActivity"
-            android:parentActivityName=".ShowList"/>
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:parentActivityName=".ShowList" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
+
         </activity>
 
-        <receiver android:name=".ReminderBroadcast"/>
+        <receiver android:name=".ReminderBroadcast" />
 
         <meta-data
             android:name="preloaded_fonts"
