@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +21,8 @@
             android:layout_height="wrap_content"
             android:background="@color/backgroundLite"
             android:ems="10"
-            android:hint="UNIT NAME"
+            android:hint="@string/unit_name"
+            android:autofillHints="no"
             android:inputType="textPersonName"
             android:textAlignment="center" />
 
@@ -33,7 +33,8 @@
             android:layout_marginTop="32dp"
             android:background="@color/backgroundLite"
             android:ems="10"
-            android:hint="VOLUME"
+            android:hint="@string/volume"
+            android:autofillHints="no"
             android:inputType="numberDecimal"
             android:textAlignment="center" />
 
@@ -44,6 +45,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:background="@drawable/custom_button"
-            android:text="CREATE" />
+            android:text="@string/create" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
