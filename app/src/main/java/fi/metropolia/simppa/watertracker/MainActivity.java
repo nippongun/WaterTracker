@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         //get today's year month and day then set Date from as the bigining of the day, Date to as the end of the day.
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH);
+        int month = Calendar.getInstance().get(Calendar.MONTH);//month give you a value start from 0
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(0);
@@ -157,7 +157,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });//end of the spinner listener
     }
-
+    /**update the piechart again onResume
+     * **/
     @Override
     public void onResume() {
         super.onResume();
