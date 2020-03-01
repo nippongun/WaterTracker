@@ -4,9 +4,9 @@
         android:fromDegrees="270"
         android:toDegrees="270">
         <shape
-            android:innerRadius="50dp"
+            android:innerRadius="100dp"
             android:shape="ring"
-            android:thickness="20dp"
+            android:thickness="24dp"
             android:useLevel="true">
             <solid android:color="@color/icon" />
         </shape>
