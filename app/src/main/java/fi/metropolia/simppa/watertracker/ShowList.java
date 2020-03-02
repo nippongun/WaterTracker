@@ -62,13 +62,20 @@ public class ShowList extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
+        int volume = data.getIntExtra(UnitActivity.EXTRA_MESSAGE_VOLUME,0);
         // handle the data and requests
         if(requestCode == NEW_UNIT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             Unit unit = new Unit(data.getStringExtra(UnitActivity.EXTRA_MESSAGE_UNIT_NAME)
-                    ,data.getIntExtra(UnitActivity.EXTRA_MESSAGE_VOLUME,0));
+                    ,volume);
             unitViewModel.insertUnit(unit);
         } else {
-            Toast.makeText(getApplicationContext(),R.string.isEmpty, Toast.LENGTH_LONG).show();
+            if(volume >= 3000){
+                Toast.makeText(getApplicationContext(),R.string.unit_too_large, Toast.LENGTH_LONG).show();
+            } else if (volume <= 100){
+                Toast.makeText(getApplicationContext(),R.string.unit_too_small, Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(), R.string.isEmpty, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

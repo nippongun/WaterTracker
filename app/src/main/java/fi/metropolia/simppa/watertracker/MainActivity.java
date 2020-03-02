@@ -4,9 +4,10 @@ import fi.metropolia.simppa.watertracker.database.Consumption;
 import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitDatabase;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
+
 import android.content.SharedPreferences;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,10 +18,8 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,15 +34,20 @@ import java.util.List;
 
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Button b2, b3, b4, dummy;
+    Button addUnitButton, dailyGoalButton, chartButton;
     int todayConsumption = 0; //For circle chart
     int todayGoal; //For circle chart
     Intent intent;
     private ArrayList<String> unitNameList = new ArrayList<>();
     private Spinner spinner;
+    private boolean isinitial = true;
+
+    int waterConsumed = 0; //For circle chart
+    int waterGoal = 2500; //For circle chart
+    private DailyGoal goal = new DailyGoal(2500); //to obtain updated Daily Goal
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,54 +55,48 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        b2 = findViewById(R.id.button_addunit);
-        b3 = findViewById(R.id.button_dailygoal);
-        b4 = findViewById(R.id.button_stats);
-        /**dummy = findViewById(R.id.dummy);
-
-        dummy.setOnClickListener(v ->  {
-            Toast.makeText(this, "Reminder Set!", Toast.LENGTH_SHORT).show();
-         **/
+        addUnitButton = findViewById(R.id.button_addunit);
+        dailyGoalButton = findViewById(R.id.button_dailygoal);
+        chartButton = findViewById(R.id.button_chart);
 
         //Set notifications
-            Intent intent = new Intent(MainActivity.this, ReminderBroadcast.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-           /** long timeAtButtonClick = System.currentTimeMillis();
-            long twoSecondsMillis = 1000 * 2;
-            alarmManager.set(AlarmManager.RTC_WAKEUP,
-                   timeAtButtonClick + twoSecondsMillis,
-                    pendingIntent);**/
+        Intent intent = new Intent(MainActivity.this, ReminderBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-            //Set the alarm to start at approximately 2:00 p.m.
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 14);
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-            AlarmManager.INTERVAL_DAY, pendingIntent);
-//End of notifications
-
-        //});
-
+        //Set the alarm to start at approximately 2:00 p.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 14);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
         createNotificationChannel();
+        //End of notifications
 
-        getVolume gv = new getVolume();
+
+
+
+        getVolume gv= new getVolume();
 
         //get today's year month and day then set Date from as the bigining of the day, Date to as the end of the day.
+
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH);//month give you a value start from 0
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+       
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(0);
-        cal.set(year, month, day, 0, 0, 0);
-        Date from = cal.getTime();
+        cal.set(year,month,day,0,0,0);
+        Date from=cal.getTime();
 
 
-        cal.set(year, month, day, 23, 59, 59);
-        Date to = cal.getTime();
+
+        cal.set(year,month,day,23,59,59);
+        Date to=cal.getTime();
 
         //get the whole day's volume and set to chart
-        gv.execute(from, to);
+        gv.execute(from,to);
 
 
 
@@ -118,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //empty the list so every item are not populate again and again
                 unitNameList.clear();
+
                 int i = 0;
                 for (Unit unit : units) {
 
@@ -130,10 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
                 }
 
-
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.spinner_unit_style, unitNameList);
-
-
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
                 spinner = findViewById(R.id.main_spinner_chooseUnit);
 
@@ -152,9 +148,7 @@ public class MainActivity extends AppCompatActivity {
         * */
         spinner = findViewById(R.id.main_spinner_chooseUnit);
 
-
         spinner.setSelection(0);
-
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -162,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 String[] unitName = spinner.getSelectedItem().toString().split(" ");
                 Log.d("MAIN", "what? " + unitName[0]);
                 //UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
-                if (!unitName[0].equals("SELECT")) {
+                if (!unitName[0].equals("SELECT")){
                     InsertConsumption ic = new InsertConsumption();
                     ic.execute(unitName[0]);
                 }
@@ -173,16 +167,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });//end of the spinner listener
-
-
-
-
-        //2. Notification on-tap intent
-        // Create an explicit intent for an Activity in your app
-        /**Intent intent = new Intent(this, MainActivity.class);
-         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-         **/
     }
     /**update the piechart again onResume
      * **/
@@ -191,56 +175,58 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         updateChart();
 
-        getVolume gv = new getVolume();
+        getVolume gv= new getVolume();
 
 
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        int year=Calendar.getInstance().get(Calendar.YEAR);
+        int month= Calendar.getInstance().get(Calendar.MONTH);
+        int day=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(0);
-        cal.set(year, month, day, 0, 0, 0);
-        Date from = cal.getTime();
+        cal.set(year,month,day,0,0,0);
+        Date from=cal.getTime();
 
 
-        cal.set(year, month, day, 23, 59, 59);
-        Date to = cal.getTime();
+
+        cal.set(year,month,day,23,59,59);
+        Date to=cal.getTime();
 
         //get the whole day's volume and set to chart
-        gv.execute(from, to);
+        gv.execute(from,to);
 
 
     }
 
     @Override
-    public void onStart() {
+    public void onStart(){
         super.onStart();
-        getVolume gv = new getVolume();
+        getVolume gv= new getVolume();
 
 
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        int year=Calendar.getInstance().get(Calendar.YEAR);
+        int month= Calendar.getInstance().get(Calendar.MONTH);
+        int day=Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(0);
-        cal.set(year, month, day, 0, 0, 0);
-        Date from = cal.getTime();
+        cal.set(year,month,day,0,0,0);
+        Date from=cal.getTime();
 
 
-        cal.set(year, month, day, 23, 59, 59);
-        Date to = cal.getTime();
+
+        cal.set(year,month,day,23,59,59);
+        Date to=cal.getTime();
 
         //get the whole day's volume and set to chart
-        gv.execute(from, to);
+        gv.execute(from,to);
     }
 
     public class InsertConsumption extends AsyncTask<String, Void, Long> {
         @Override
         protected Long doInBackground(String... drinks) {
             UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
-            Consumption consumption = new Consumption(db.unitDao().getUnitByName(drinks[0]).getPrimaryKey(), Calendar.getInstance().getTime());
+            Consumption consumption = new Consumption(db.unitDao().getUnitByName(drinks[0]).getPrimaryKey(),Calendar.getInstance().getTime());
             long res = db.unitDao().insertConsumption(consumption);
-            Log.d("test", "" + res);
+            Log.d("test", ""+res);
             return res;
             //return db.unitDao().insertConsumption(drinks[0]);
         }
@@ -259,23 +245,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void onButton(View view) {
 
-        if (view.getId() == b2.getId()) {
+        if (view.getId() == addUnitButton.getId()) {
             intent = new Intent(this, ShowList.class);
-        } else if (view.getId() == b3.getId()) {
+        } else if (view.getId() == dailyGoalButton.getId()) {
             intent = new Intent(this, DailyGoalActivity.class);
-        } else if (view.getId() == b4.getId()) {
+        } else if (view.getId() == chartButton.getId()) {
             intent = new Intent(this, Chart.class);
         }
         startActivity(intent);
     }
 
-    private void createNotificationChannel () {
+    private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("notifyUser", "Reminders", NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
@@ -313,17 +298,21 @@ public class MainActivity extends AppCompatActivity {
         prefEditor.commit();
     }
 
+
+
+
+
     /**
      * Search volume by day then in the onpostExecute method update the todayConsumption first then
      * performe updatechart()
-     */
+     * */
     public class getVolume extends AsyncTask<Date, Integer, Integer> {
         UnitViewModel viewModel = new ViewModelProvider(MainActivity.this).get(UnitViewModel.class);
 
         @Override
         protected void onPostExecute(Integer integer) {
-            Log.d("chart", "in main" + integer);
-            todayConsumption = integer;
+            Log.d("chart", "in main"+integer);
+            todayConsumption=integer;
             updateChart();
             Log.d("chart", "in main today" + integer);
         }
@@ -338,6 +327,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-//Todo: Notifications
 //Todo: Splashscreen
 //Todo: Add-hoc input

@@ -38,11 +38,20 @@ public class DailyGoalActivity extends AppCompatActivity {
 
         setButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                // text must not be empty
+                if(TextUtils.isEmpty(editGoal.getText())){
+                    Toast.makeText(getApplicationContext(),R.string.daily_goal_isEmpty, Toast.LENGTH_LONG).show();
 
-                if (TextUtils.isEmpty(editGoal.getText())) {
-                    setResult(RESULT_CANCELED);
-                    Toast.makeText(getApplicationContext(), R.string.daily_goal_isEmpty, Toast.LENGTH_LONG).show();
-                } else {
+                    // Make sure the data is not too large
+                } else if(Integer.parseInt(editGoal.getText().toString()) >= 10000){
+                    Toast.makeText(getApplicationContext(),R.string.daily_goal_too_large, Toast.LENGTH_LONG).show();
+
+                    // ... or too small/negative
+                } else if(Integer.parseInt(editGoal.getText().toString()) <= 1000){
+                    Toast.makeText(getApplicationContext(),R.string.daily_goal_too_small, Toast.LENGTH_LONG).show();
+                }
+                else{
+
                     String message = editGoal.getText().toString();
                     goal.setDailygoal(Integer.parseInt(message));
                     //currentGoal.setText(String.valueOf(goal.getDailygoal()) + " ml");
@@ -66,7 +75,8 @@ public class DailyGoalActivity extends AppCompatActivity {
                     int onCreateSaved = prefGet.getInt("new goal", 0);
                     //3. Display stored goal
                     currentGoal.setText(String.valueOf(onCreateSaved) + " ml");
-                    setResult(RESULT_OK);
+                    // responf to the user, whether changes are successful
+                    Toast.makeText(getApplicationContext(),R.string.changes, Toast.LENGTH_LONG).show();
                 }
                 finish();
             }

@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">WaterTracker</string>
-    <string name="isEmpty">Unit not saved because it is empty</string>
-    <string name="daily_goal_isEmpty">Daily goal not saved because it is empty</string>
+    <string name="changes">Changes saved!</string>
+
 
     //activity_goal.xml
     <string name="daily_goal">Daily goal</string>
     <string name="current_goal">Current goal</string>
     <string name="new_goal">New goal</string>
     <string name="set_goal">Set</string>
+    <string name="daily_goal_isEmpty">Daily goal not saved because it is empty</string>
+    <string name="daily_goal_too_large">Daily goal cannot be larger than "10000"</string>
+    <string name="daily_goal_too_small">Please set a higher goal (:</string>
     <string name="goal">2500 ml</string>
     <string name="hint">2500</string>
 
@@ -16,6 +19,12 @@
     <string name="consumed_today">1500 ml out of 2500 ml</string>
     <string name="cnnonsumed_today">1500 ml out of 2500 ml</string>
     <string name="showChartButton">Show Chart</string>
+
+
+    //activity_show_list.xml
+    <string name="isEmpty">Unit not saved because it is empty</string>
+    <string name="unit_too_large">Unit is too large</string>
+    <string name="unit_too_small">Unitis too small</string>
     <string name="spinnerHeader">Record consumption</string>
     <string name="percentage">50%</string>
     <string name="header">Today</string>
