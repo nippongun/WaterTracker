@@ -4,13 +4,10 @@ import fi.metropolia.simppa.watertracker.database.Consumption;
 import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitDatabase;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
-
 import android.content.SharedPreferences;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -24,72 +21,27 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    Button addUnitButton, dailyGoalButton, chartButton;
-    int todayConsumption = 0; //For circle chart
-    int todayGoal; //For circle chart
-    Intent intent;
+    private int todayConsumption = 0; //For circle chart
+    private int todayGoal; //For circle chart
+    private Intent intent;
     private ArrayList<String> unitNameList = new ArrayList<>();
     private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("test", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        addUnitButton = findViewById(R.id.button_addunit);
-        dailyGoalButton = findViewById(R.id.button_dailygoal);
-        chartButton = findViewById(R.id.button_chart);
-
-        //Set notifications
-        Intent intent = new Intent(MainActivity.this, ReminderBroadcast.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        //Set the alarm to start at approximately 2:00 p.m.
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
-        createNotificationChannel();
-        //End of notifications
-
-
-
-
-        getVolume gv = new getVolume();
-
-        //get today's year month and day then set Date from as the bigining of the day, Date to as the end of the day.
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(0);
-        cal.set(year, month, day, 0, 0, 0);
-        Date from = cal.getTime();
-
-
-        cal.set(year, month, day, 23, 59, 59);
-        Date to = cal.getTime();
-
-        //get the whole day's volume and set to chart
-        gv.execute(from, to);
-
-
-
+        setNotifications();
+        updateChartConsumption();
 
         /*
          * From Feihua
@@ -164,51 +116,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        updateChart();
-
-        getVolume gv = new getVolume();
-
-
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(0);
-        cal.set(year, month, day, 0, 0, 0);
-        Date from = cal.getTime();
-
-
-        cal.set(year, month, day, 23, 59, 59);
-        Date to = cal.getTime();
-
-        //get the whole day's volume and set to chart
-        gv.execute(from, to);
-
-
+    public void onStart() {
+        super.onStart();
+        updateChartConsumption();
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        getVolume gv = new getVolume();
-
-
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(0);
-        cal.set(year, month, day, 0, 0, 0);
-        Date from = cal.getTime();
-
-
-        cal.set(year, month, day, 23, 59, 59);
-        Date to = cal.getTime();
-
-        //get the whole day's volume and set to chart
-        gv.execute(from, to);
+    public void onResume() {
+        super.onResume();
+        updateChartConsumption();
     }
 
     public class InsertConsumption extends AsyncTask<String, Void, Long> {
@@ -233,60 +149,97 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void onButton(View view) {
-
-        if (view.getId() == addUnitButton.getId()) {
+        if (view.getId() == R.id.button_addunit) {
             intent = new Intent(this, ShowList.class);
-        } else if (view.getId() == dailyGoalButton.getId()) {
+        } else if (view.getId() == R.id.button_dailygoal) {
             intent = new Intent(this, DailyGoalActivity.class);
-        } else if (view.getId() == chartButton.getId()) {
+        } else if (view.getId() == R.id.button_chart) {
             intent = new Intent(this, Chart.class);
         }
         startActivity(intent);
     }
 
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.channel_name);
-            String description = getString(R.string.channel_description);
-            NotificationChannel channel = new NotificationChannel("notifyUser", "Reminders", NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-
-    //update circle chart
-    private void updateChart() {
+    /**
+     * @updateChartGoal() updates the pie chart with daily goal set by the user
+     */
+    private void updateChartGoal() {
         // Get latest daily goal
-        // 1. Open the file: get references
+        //1. Open the file: get references
         SharedPreferences prefGet = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
         //2. Read the value, default 0 if not strored
         todayGoal = prefGet.getInt("new goal", 0);
-
         // Update the texts "consumed out of goal" and "XX%"
         TextView statusUpdateTextView = findViewById(R.id.statusUpdateTextView);
-        TextView percentageTextView = findViewById(R.id.percentageTextView);
-        statusUpdateTextView.setText((todayConsumption) + " ml out of " + String.valueOf(todayGoal) + " ml");
+        statusUpdateTextView.setText(todayConsumption + " ml out of " + todayGoal + " ml");
+    }
 
+    /**
+     * @updateChartProgress updates the pie chart and related text view with information about how many % of the daily goal has been fulfilled
+     */
+    private void updateChartProgress(){
         // Calculate the slice size and update the pie chart:
+        TextView percentageTextView = findViewById(R.id.percentageTextView);
         ProgressBar pieChart = findViewById(R.id.stats_progressbar);
         double d = (double) todayConsumption / (double) todayGoal;
         int progress = (int) (d * 100);
         pieChart.setProgress(progress);
         percentageTextView.setText((progress) + "%");
-        Log.d("TEST", String.valueOf(todayGoal));
 
         //Save progress to share preference so it can be retrieved by notifications
         SharedPreferences prefPut = getSharedPreferences("Progress", Activity.MODE_PRIVATE);
         SharedPreferences.Editor prefEditor = prefPut.edit();
         prefEditor.putInt("Progress", progress);
-        prefEditor.commit();
+        prefEditor.apply();
+    }
+
+    /**
+     * @updateChartConsumption updates pie chart and text view with how much water has been consumed that day
+     */
+    private void updateChartConsumption() {
+        getVolume gv = new getVolume();
+        //get today's year month and day then set Date from as the bigining of the day, Date to as the end of the day.
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(0);
+        cal.set(year, month, day, 0, 0, 0);
+        Date from = cal.getTime();
+        cal.set(year, month, day, 23, 59, 59);
+        Date to = cal.getTime();
+        //get the whole day's volume and set to chart
+        gv.execute(from, to);
+    }
+
+    /**
+     * @setNotifications configures when are notifications send
+     */
+    private void setNotifications(){
+        Intent intents = new Intent(MainActivity.this, ReminderBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intents, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        //Set the alarm to start at approximately 2:00 p.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 14);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+        createNotificationChannel();
+    }
+
+    /**
+     * @createNotificationChannes sets channel for notificatons
+     */
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String description = getString(R.string.channel_description);
+            NotificationChannel channel = new NotificationChannel("notifyUser", "Reminders", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     /**
@@ -300,7 +253,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Integer integer) {
             Log.d("chart", "in main" + integer);
             todayConsumption = integer;
-            updateChart();
+            updateChartGoal();
+            updateChartProgress();
             Log.d("chart", "in main today" + integer);
         }
 
@@ -314,5 +268,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-//Todo: Splashscreen
-//Todo: Add-hoc input
+
+// class level actrivities, constructors, overwrite, own methods, inner classes, method max 5 lines, separate business logic from UI, separate model from creator

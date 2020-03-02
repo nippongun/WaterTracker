@@ -74,3 +74,4 @@ public class DailyGoalActivity extends AppCompatActivity {
     }
 }
 
+//Todo write test for different kind of inpute

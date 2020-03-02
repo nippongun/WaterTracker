@@ -48,14 +48,13 @@ public abstract class UnitDatabase extends RoomDatabase {
                 //dao.deleteAll();
                 Unit unit = new Unit("SELECT AN ITEM", 0);
                 dao.insertUnit(unit);
-                unit = new Unit("standard", 500);
+                unit = new Unit("MyLovelyBottle", 500);
                 dao.insertUnit(unit);
-                unit = new Unit("henlö", 333);
+                unit = new Unit("WaterGlass", 250);
                 dao.insertUnit(unit);
-                unit = new Unit("small", 100);
+                unit = new Unit("CoffeeMug", 200);
                 dao.insertUnit(unit);
-                unit = new Unit("median", 200);
-                dao.insertUnit(unit);
+
 
 
                 //add a consumption record

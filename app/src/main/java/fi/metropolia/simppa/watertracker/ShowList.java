@@ -42,10 +42,11 @@ public class ShowList extends AppCompatActivity {
 
         unitViewModel = new ViewModelProvider(this).get(UnitViewModel.class);
 
+        //Todo I think this one still shows the dummy unit. Not sure whether it should be fixed in the UnitViewModel or elsewhere?
         unitViewModel.getUnitList().observe(this, new Observer<List<Unit>>() {
             @Override
             public void onChanged(@Nullable final List<Unit> units) {
-                adapter.setUnits(units.subList(0,units.size()));
+                adapter.setUnits(units.subList(1,units.size()));
             }
         });
 
