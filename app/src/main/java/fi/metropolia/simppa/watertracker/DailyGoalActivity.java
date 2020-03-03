@@ -1,6 +1,7 @@
 package fi.metropolia.simppa.watertracker;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,20 +27,30 @@ public class DailyGoalActivity extends AppCompatActivity {
             finish();
         });
     }
+
     /**
      * Collects users input and validates and saves it
      */
     private void handleInput() {
         final EditText editGoal = findViewById(R.id.editText_editdailygoal);
+        // text must not be empty
         if (TextUtils.isEmpty(editGoal.getText())) {
-            setResult(RESULT_CANCELED);
             Toast.makeText(getApplicationContext(), R.string.daily_goal_isEmpty, Toast.LENGTH_LONG).show();
+
+            // Make sure the data is not too large
+        } else if (Integer.parseInt(editGoal.getText().toString()) >= 10000) {
+            Toast.makeText(getApplicationContext(), R.string.daily_goal_too_large, Toast.LENGTH_LONG).show();
+
+            // ... or too small/negative
+        } else if (Integer.parseInt(editGoal.getText().toString()) <= 200) {
+            Toast.makeText(getApplicationContext(), R.string.daily_goal_too_small, Toast.LENGTH_LONG).show();
         } else {
             message = editGoal.getText().toString();
             goal.setDailygoal(Integer.parseInt(message));
             saveGoal();
         }
     }
+
     /**
      * Displays current daily goal
      */
