@@ -70,10 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
                 }
 
-
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.spinner_unit_style, unitNameList);
-
-
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
                 spinner = findViewById(R.id.main_spinner_chooseUnit);
 
@@ -92,17 +89,39 @@ public class MainActivity extends AppCompatActivity {
         * */
         spinner = findViewById(R.id.main_spinner_chooseUnit);
 
-
         spinner.setSelection(0);
-
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String[] unitName = spinner.getSelectedItem().toString().split(" ");
-                Log.d("MAIN", "what? " + unitName[0]);
+                String[] unitName = new String[2];
+                String[] string = spinner.getSelectedItem().toString().split(" ");
+                Log.d("MAIN", "what? " + string[0]);
+
+                // This lines make sure that unit names with spaces are getting connected
+                // properly to avoid a NullPointException
+                // If the temporary String is larger than 2
+                if(string.length > 2){
+                    // put the first element into the array
+                    unitName[0] = string[0] + " ";
+                    //then add ther remaining bits
+                    for(int i = 1; i < string.length-1;i++){
+                        unitName[0] += string[i];
+                        // and make sure the names are properly spaced
+                        if (i<string.length-2){
+                            unitName[0] += " ";
+                        }
+                    }
+                    if(unitName[0].equals("SELECT AN")){
+                        unitName[0] += " ITEM";
+                    }
+                // otherwise just continue
+                } else {
+                    unitName = string;
+                }
+                Log.d("unit",unitName[0]);
                 //UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
-                if (!unitName[0].equals("SELECT")) {
+                if (!unitName[0].equals("SELECT AN ITEM")){
                     InsertConsumption ic = new InsertConsumption();
                     ic.execute(unitName[0]);
                 }
@@ -148,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
 
     public void onButton(View view) {
         if (view.getId() == R.id.button_addunit) {
