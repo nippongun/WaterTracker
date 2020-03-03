@@ -1,7 +1,6 @@
 package fi.metropolia.simppa.watertracker;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
