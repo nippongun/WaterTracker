@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @updateChartGoal() updates the pie chart with daily goal set by the user
+     * Updates the pie chart with daily goal set by the user
      */
     private void updateChartGoal() {
         // Get latest daily goal
@@ -171,11 +171,12 @@ public class MainActivity extends AppCompatActivity {
         todayGoal = prefGet.getInt("new goal", 0);
         // Update the texts "consumed out of goal" and "XX%"
         TextView statusUpdateTextView = findViewById(R.id.statusUpdateTextView);
-        statusUpdateTextView.setText(todayConsumption + " ml out of " + todayGoal + " ml");
+        String text = todayConsumption + " ml out of " + todayGoal + " ml";
+        statusUpdateTextView.setText(text);
     }
 
     /**
-     * @updateChartProgress updates the pie chart and related text view with information about how many % of the daily goal has been fulfilled
+     * Updates the pie chart and related text view with information about how many % of the daily goal has been fulfilled
      */
     private void updateChartProgress(){
         // Calculate the slice size and update the pie chart:
@@ -184,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
         double d = (double) todayConsumption / (double) todayGoal;
         int progress = (int) (d * 100);
         pieChart.setProgress(progress);
-        percentageTextView.setText((progress) + "%");
+        String text = progress + "%";
+        percentageTextView.setText(text);
 
         //Save progress to share preference so it can be retrieved by notifications
         SharedPreferences prefPut = getSharedPreferences("Progress", Activity.MODE_PRIVATE);
@@ -194,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @updateChartConsumption updates pie chart and text view with how much water has been consumed that day
+     * Updates pie chart and text view with how much water has been consumed that day
      */
     private void updateChartConsumption() {
         getVolume gv = new getVolume();
@@ -213,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @setNotifications configures when are notifications send
+     * Configures when are notifications send
      */
     private void setNotifications(){
         Intent intents = new Intent(MainActivity.this, ReminderBroadcast.class);
@@ -230,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @createNotificationChannes sets channel for notificatons
+     * Sets channel for notifications
      */
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
