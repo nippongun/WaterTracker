@@ -10,6 +10,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/*
+* The Data accesss object provides provides an interface between the Room database and
+* the queries. It also allows to create own queries for various tasks.
+* See the UnitDatabase class for resources and references
+* */
+
 @Dao
 public interface UnitDao {
 
@@ -40,6 +46,7 @@ public interface UnitDao {
     @Query("SELECT * FROM unit_table WHERE unit_name=:name" )
     Unit getUnitByName(String name);
 
+    // Get the volume between two days, primarily for an entire day
     @Query("SELECT SUM(volume) FROM consumption_table INNER JOIN unit_table ON unit_table.primary_key=consumption_table.foreign_unit_key WHERE consumption_table.timestamp BETWEEN :from AND :to")
     Integer selectVolumByDate(Date from,Date to);
 

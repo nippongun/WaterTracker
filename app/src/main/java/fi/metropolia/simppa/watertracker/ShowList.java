@@ -28,12 +28,16 @@ import fi.metropolia.simppa.watertracker.database.UnitListAdapter;
 public class ShowList extends AppCompatActivity {
 
     public static final int NEW_UNIT_ACTIVITY_REQUEST_CODE = 1;
-
+    int minVolume;
+    int maxVolume;
     private UnitViewModel unitViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_list);
+
+        minVolume = R.integer.minVolume;
+        maxVolume = R.integer.maxVolume;
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final UnitListAdapter adapter = new UnitListAdapter(this);
@@ -45,7 +49,7 @@ public class ShowList extends AppCompatActivity {
         unitViewModel.getUnitList().observe(this, new Observer<List<Unit>>() {
             @Override
             public void onChanged(@Nullable final List<Unit> units) {
-                adapter.setUnits(units.subList(0,units.size()));
+                adapter.setUnits(units.subList(1,units.size()));
             }
         });
 
@@ -60,22 +64,32 @@ public class ShowList extends AppCompatActivity {
         });
     }
 
+    /*
+    * This method handles the data that comes sent back by the activity "UnitActivity"
+    *
+    * */
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         int volume = data.getIntExtra(UnitActivity.EXTRA_MESSAGE_VOLUME,0);
         // handle the data and requests
+        // only if the data is correct, a unit can be created and inserted into the database
         if(requestCode == NEW_UNIT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             Unit unit = new Unit(data.getStringExtra(UnitActivity.EXTRA_MESSAGE_UNIT_NAME)
                     ,volume);
             unitViewModel.insertUnit(unit);
         } else {
-            if(volume >= 3000){
+            //otherwise shoot toasts and tell the user what went wrong
+            if(volume > maxVolume){
+                // A unit can't be too large
                 Toast.makeText(getApplicationContext(),R.string.unit_too_large, Toast.LENGTH_LONG).show();
-            } else if (volume <= 100){
+            } else if (volume < minVolume){
+                //or too small
                 Toast.makeText(getApplicationContext(),R.string.unit_too_small, Toast.LENGTH_LONG).show();
             }else{
+                // If the user enters
                 Toast.makeText(getApplicationContext(), R.string.isEmpty, Toast.LENGTH_LONG).show();
             }
+
         }
     }
 }

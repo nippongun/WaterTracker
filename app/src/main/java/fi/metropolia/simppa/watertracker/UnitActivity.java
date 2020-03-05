@@ -16,6 +16,7 @@ import fi.metropolia.simppa.watertracker.database.Unit;
 
 public class UnitActivity extends AppCompatActivity {
 
+    //messages to save the volume and unit name
     public static final String EXTRA_MESSAGE_UNIT_NAME = "fi.metropolia.simppa.watertracker.UNIT_NAME";
     public static final String EXTRA_MESSAGE_VOLUME = "fi.metropolia.simppa.watertracker.VOLUME";
 
@@ -55,6 +56,7 @@ public class UnitActivity extends AppCompatActivity {
                     replyIntent.putExtra(EXTRA_MESSAGE_VOLUME, Integer.parseInt(strVolume) );
                     setResult(RESULT_OK, replyIntent);
                 }
+                // close the activity since there is no need anymore to keep it open.
                 finish();
             }
         });

@@ -18,9 +18,20 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/*
+* The database is the heart of the app and provides structured data for storing and managing the
+* users' inputs. The database follows the singleton design pattern to avoid performance losses due
+* to multiple instances.
+*
+* Resources and references are for the entire package 'database'
+* https://developer.android.com/training/data-storage/room
+* https://developer.android.com/jetpack/androidx/releases/room
+* */
 @Database(entities = {Unit.class, Consumption.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class UnitDatabase extends RoomDatabase {
+    //The database uses the DAO to handle the data. It allows the database faster handling
+    //for asynchronous tasks.
     public abstract UnitDao unitDao();
     private static volatile UnitDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -28,6 +39,8 @@ public abstract class UnitDatabase extends RoomDatabase {
 
     public static UnitDatabase getDatabase(final Context context){
         if(INSTANCE == null){
+            // the keyword synchronized allows statements to be executed after the thread has been finished
+            //https://docs.oracle.com/javase/tutorial/essential/concurrency/locksync.html
             synchronized (UnitDatabase.class){
                 if (INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
@@ -38,6 +51,10 @@ public abstract class UnitDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    /*
+    * A callback allows to manage data on multiple occasions such as onCreate
+    * In this case, predefined units are created on creation of the database
+    * */
     private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback(){
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -45,23 +62,17 @@ public abstract class UnitDatabase extends RoomDatabase {
 
             databaseWriterExecutor.execute(() -> {
                 UnitDao dao = INSTANCE.unitDao();
-                //dao.deleteAll();
+                //The following unit is a dummy necessary for spinner selection on the main activity.
                 Unit unit = new Unit("SELECT AN ITEM", 0);
                 dao.insertUnit(unit);
                 unit = new Unit("standard", 500);
                 dao.insertUnit(unit);
-                unit = new Unit("henlö", 333);
-                dao.insertUnit(unit);
-                unit = new Unit("small", 100);
-                dao.insertUnit(unit);
-                unit = new Unit("median", 200);
-                dao.insertUnit(unit);
 
 
                 //add a consumption record
-                Date date= Calendar.getInstance().getTime();
-                Consumption consumption= new Consumption(1,date);
-                dao.insertConsumption(consumption);
+//                Date date= Calendar.getInstance().getTime();
+//                Consumption consumption= new Consumption(1,date);
+//                dao.insertConsumption(consumption);
 
             });
         }
