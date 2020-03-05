@@ -29,6 +29,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
@@ -62,6 +63,9 @@ public class Chart extends AppCompatActivity {
             return cal.getTime();
         }
 
+        /***
+         * set the volume list returned from doInBackground()  to the chart and rendering it
+         */
 
 
         @Override
@@ -72,16 +76,20 @@ public class Chart extends AppCompatActivity {
 
             List<DataEntry> data = new ArrayList<>();
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(0)));
-            cal.add(Calendar.DATE, -1);
+            cal.add(Calendar.DATE, -1);//change the date to one day before
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(1)));
-            cal.add(Calendar.DATE, -1);
+            cal.add(Calendar.DATE, -1);//change the date to one day before
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(2)));
-            cal.add(Calendar.DATE, -1);
+            cal.add(Calendar.DATE, -1);//change the date to one day before
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(3)));
-            cal.add(Calendar.DATE, -1);
+            cal.add(Calendar.DATE, -1);//change the date to one day before
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(4)));
+            Collections.reverse(data);
             chartRendering(data);
         }
+        /**
+         * get the volume by date if there is no record will return 0
+         */
 
         @Override
         protected List<Integer> doInBackground(Date... dates) {

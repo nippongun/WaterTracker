@@ -197,6 +197,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });//end of the spinner listener
     }
+
+
+
+
     /**update the piechart again onResume
      * **/
     @Override
