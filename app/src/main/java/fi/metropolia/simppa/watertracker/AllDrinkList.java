@@ -24,6 +24,13 @@ import fi.metropolia.simppa.watertracker.database.Consumption;
 import fi.metropolia.simppa.watertracker.database.ConsumptionViewModel;
 import fi.metropolia.simppa.watertracker.database.Unit;
 
+
+
+/**
+ * This class will get all the records of consumptions in the database and use a recyclerView to
+ * display them
+ * */
+
 public class AllDrinkList extends AppCompatActivity {
     private String intentValue, consumpItem;
 
@@ -39,7 +46,7 @@ public class AllDrinkList extends AppCompatActivity {
 
         Intent intent = getIntent();
         intentValue = intent.getStringExtra("message");
-
+        //for all the consumption records, will be implement by day or month etc in the next version
         if (intentValue.equals("all")) {
 
             ConsumptionViewModel viewModel = new ViewModelProvider(this).get(ConsumptionViewModel.class);

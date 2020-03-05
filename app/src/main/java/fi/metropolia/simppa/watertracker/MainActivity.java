@@ -5,6 +5,7 @@ import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitDatabase;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
 
+import android.app.ActionBar;
 import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
     Button addUnitButton, dailyGoalButton, chartButton;
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("test", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        
+
 
         addUnitButton = findViewById(R.id.button_addunit);
         dailyGoalButton = findViewById(R.id.button_dailygoal);
@@ -192,6 +197,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });//end of the spinner listener
     }
+
+
+
+
     /**update the piechart again onResume
      * **/
     @Override
