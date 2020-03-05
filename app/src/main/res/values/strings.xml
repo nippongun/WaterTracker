@@ -24,7 +24,7 @@
     //activity_show_list.xml
     <string name="isEmpty">Unit not saved because it is empty</string>
     <string name="unit_too_large">Unit is too large</string>
-    <string name="unit_too_small">Unitis too small</string>
+    <string name="unit_too_small">Unit is too small</string>
     <string name="spinnerHeader">Record consumption</string>
     <string name="percentage">50%</string>
     <string name="header">Today</string>

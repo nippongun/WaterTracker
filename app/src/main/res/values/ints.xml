@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="minVolume">100</integer>
-    <integer name="maxVolume">3000</integer>
+    //for the activities related to the unit
+    <integer name="min_unit_volume">100</integer>
+    <integer name="max_unit_volume">3000</integer>
+
+    <integer name="min_goal_volume">1000</integer>
+    <integer name="max_goal_volume">10000</integer>
 </resources>
