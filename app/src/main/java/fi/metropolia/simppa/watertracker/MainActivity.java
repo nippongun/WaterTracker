@@ -16,6 +16,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.app.Activity;
 import android.os.Build;
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     int waterGoal = 2500; //For circle chart
     private DailyGoal goal = new DailyGoal(2500); //to obtain updated Daily Goal
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("test", "onCreate");
@@ -73,9 +73,6 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
         //End of notifications
 
-
-
-
         getVolume gv= new getVolume();
 
         //get today's year month and day then set Date from as the bigining of the day, Date to as the end of the day.
@@ -84,23 +81,17 @@ public class MainActivity extends AppCompatActivity {
         int month = Calendar.getInstance().get(Calendar.MONTH);//month give you a value start from 0
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
-       
+
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(0);
         cal.set(year,month,day,0,0,0);
         Date from=cal.getTime();
-
-
 
         cal.set(year,month,day,23,59,59);
         Date to=cal.getTime();
 
         //get the whole day's volume and set to chart
         gv.execute(from,to);
-
-
-
-
         /*
          * From Feihua
          * populate the spinner in the main_activity
@@ -171,16 +162,16 @@ public class MainActivity extends AppCompatActivity {
                             unitName[0] += " ";
                         }
                     }
-                    if(unitName[0].equals("SELECT AN")){
-                        unitName[0] += " ITEM";
+                    if(unitName[0].equals(getString(R.string.select_an_dummy))){
+                        unitName[0] = getString(R.string.dummy_name);
                     }
-                // otherwise just continue
+                    // otherwise just continue
                 } else {
                     unitName = string;
                 }
                 Log.d("unit",unitName[0]);
                 //UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
-                if (!unitName[0].equals("SELECT AN ITEM")){
+                if (!unitName[0].equals(getString(R.string.dummy_name))){
                     InsertConsumption ic = new InsertConsumption();
                     ic.execute(unitName[0]);
                 }
@@ -235,37 +226,12 @@ public class MainActivity extends AppCompatActivity {
         cal.set(year,month,day,0,0,0);
         Date from=cal.getTime();
 
-
-
         cal.set(year,month,day,23,59,59);
         Date to=cal.getTime();
 
         //get the whole day's volume and set to chart
         gv.execute(from,to);
     }
-
-    public class InsertConsumption extends AsyncTask<String, Void, Long> {
-        @Override
-        protected Long doInBackground(String... drinks) {
-            UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
-            Consumption consumption = new Consumption(db.unitDao().getUnitByName(drinks[0]).getPrimaryKey(),Calendar.getInstance().getTime());
-            long res = db.unitDao().insertConsumption(consumption);
-            Log.d("test", ""+res);
-            return res;
-            //return db.unitDao().insertConsumption(drinks[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Long id) {
-            super.onPostExecute(id);
-            //new id exist :)
-            spinner.setSelection(0);
-            Intent intent = new Intent(MainActivity.this, AllDrinkList.class);
-            intent.putExtra("message", "all");
-            startActivity(intent);
-        }
-    }
-
 
     public void onButton(View view) {
 
@@ -322,10 +288,6 @@ public class MainActivity extends AppCompatActivity {
         prefEditor.commit();
     }
 
-
-
-
-
     /**
      * Search volume by day then in the onpostExecute method update the todayConsumption first then
      * performe updatechart()
@@ -348,6 +310,28 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 return viewModel.selectVolumeByDate(dates[0], dates[1]);
             }
+        }
+    }
+
+    public class InsertConsumption extends AsyncTask<String, Void, Long> {
+        @Override
+        protected Long doInBackground(String... drinks) {
+            UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
+            Consumption consumption = new Consumption(db.unitDao().getUnitByName(drinks[0]).getPrimaryKey(),Calendar.getInstance().getTime());
+            long res = db.unitDao().insertConsumption(consumption);
+            Log.d("test", ""+res);
+            return res;
+            //return db.unitDao().insertConsumption(drinks[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Long id) {
+            super.onPostExecute(id);
+            //new id exist :)
+            spinner.setSelection(0);
+            Intent intent = new Intent(MainActivity.this, AllDrinkList.class);
+            intent.putExtra("message", "all");
+            startActivity(intent);
         }
     }
 }

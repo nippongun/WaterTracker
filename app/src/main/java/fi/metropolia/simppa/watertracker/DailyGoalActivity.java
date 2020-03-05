@@ -43,11 +43,11 @@ public class DailyGoalActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),R.string.daily_goal_isEmpty, Toast.LENGTH_LONG).show();
 
                     // Make sure the data is not too large
-                } else if(Integer.parseInt(editGoal.getText().toString()) >= R.integer.max_goal_volume){
+                } else if(Integer.parseInt(editGoal.getText().toString()) >= getResources().getInteger(R.integer.max_goal_volume)){
                     Toast.makeText(getApplicationContext(),R.string.daily_goal_too_large, Toast.LENGTH_LONG).show();
 
                     // ... or too small/negative
-                } else if(Integer.parseInt(editGoal.getText().toString()) <= R.integer.min_goal_volume){
+                } else if(Integer.parseInt(editGoal.getText().toString()) <= getResources().getInteger(R.integer.min_goal_volume)){
                     Toast.makeText(getApplicationContext(),R.string.daily_goal_too_small, Toast.LENGTH_LONG).show();
                 }
                 else{

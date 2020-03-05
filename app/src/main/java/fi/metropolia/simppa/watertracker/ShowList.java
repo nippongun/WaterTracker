@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -36,8 +38,8 @@ public class ShowList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_list);
 
-        minVolume = R.integer.min_unit_volume;
-        maxVolume = R.integer.max_unit_volume;
+        minVolume = getResources().getInteger(R.integer.min_unit_volume);
+        maxVolume = getResources().getInteger(R.integer.max_unit_volume);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final UnitListAdapter adapter = new UnitListAdapter(this);
