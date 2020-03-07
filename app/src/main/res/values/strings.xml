@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">WaterTracker</string>
     <string name="changes">Changes saved!</string>
-
-
+    <string name="ml">ml</string>
+    <string name="ml_out_of">ml out of</string>
     //activity_goal.xml
     <string name="daily_goal">Daily goal</string>
     <string name="current_goal">Current goal</string>

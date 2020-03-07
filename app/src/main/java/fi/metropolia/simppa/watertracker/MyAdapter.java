@@ -16,17 +16,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView mytextView;
         private TextView date;
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
             mytextView=itemView.findViewById(R.id.textView);
             date=itemView.findViewById(R.id.volumeView);
         }
     }
 
-    public void  setMyData(List<String> dataList,List<String> date){
+    void  setMyData(List<String> dataList, List<String> date){
         this.myData=dataList;
         this.date=date;
 

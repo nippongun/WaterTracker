@@ -31,6 +31,7 @@ public class Unit {
         return primaryKey;
     }
 
+    @NonNull
     public String getUnitName() {
         return unitName;
     }
@@ -43,14 +44,11 @@ public class Unit {
         this.primaryKey = primaryKey;
     }
 
-    public void setUnitName(@NonNull String unitName) {
-        this.unitName = unitName;
-    }
-
     public void setVolume(int volume) {
         this.volume = volume;
     }
 
+    @NonNull
     public String toString() {
         return unitName + volume;
     }

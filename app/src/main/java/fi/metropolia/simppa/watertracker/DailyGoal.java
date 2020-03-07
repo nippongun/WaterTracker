@@ -4,15 +4,11 @@ public class DailyGoal {
 
     private int dailygoal;
 
-    public DailyGoal(int dailygoal) {
+    DailyGoal(int dailygoal) {
         this.dailygoal = dailygoal;
     }
 
-    public void setDailygoal(int message) {
+    void setDailygoal(int message) {
         this.dailygoal = message;
-    }
-
-    public int getDailygoal() {
-        return this.dailygoal;
     }
 }
