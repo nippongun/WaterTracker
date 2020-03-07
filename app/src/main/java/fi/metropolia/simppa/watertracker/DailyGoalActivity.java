@@ -12,62 +12,72 @@ import android.widget.Toast;
 
 public class DailyGoalActivity extends AppCompatActivity {
     private DailyGoal goal = new DailyGoal(0);
-    String message;
 
+    /**
+     * @onCreate 1. Displays current daily goal
+     * 2. Collects users input about modified daily goal
+     * 3. Saves the new value in shared preference
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal);
 
+        final EditText editGoal = findViewById(R.id.editText_editdailygoal);
+        final TextView currentGoal = findViewById(R.id.textView_actualcurrentgoal);
         final Button setButton = findViewById(R.id.button_setgoal);
-        displayGoal();
-        setButton.setOnClickListener(v -> {
-            handleInput();
+
+        //Display correct daily goal
+        // 1. Open the file: get references
+        SharedPreferences prefGet = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
+        //2. Read the value, default 0 if not strored
+        int onCreateSaved = prefGet.getInt("new goal", 0);
+        //3. Display stored goal
+        currentGoal.setText(onCreateSaved + getString(R.string.ml));
+
+        setButton.setOnClickListener(view -> {
+            // text must not be empty
+            if(TextUtils.isEmpty(editGoal.getText())){
+                Toast.makeText(getApplicationContext(),R.string.daily_goal_isEmpty, Toast.LENGTH_LONG).show();
+
+                // Make sure the data is not too large
+            } else if(Integer.parseInt(editGoal.getText().toString()) >= getResources().getInteger(R.integer.max_goal_volume)){
+                Toast.makeText(getApplicationContext(),R.string.daily_goal_too_large, Toast.LENGTH_LONG).show();
+
+                // ... or too small/negative
+            } else if(Integer.parseInt(editGoal.getText().toString()) <= getResources().getInteger(R.integer.min_goal_volume)){
+                Toast.makeText(getApplicationContext(),R.string.daily_goal_too_small, Toast.LENGTH_LONG).show();
+            }
+            else{
+
+                String message = editGoal.getText().toString();
+                goal.setDailygoal(Integer.parseInt(message));
+                //currentGoal.setText(String.valueOf(goal.getDailygoal()) + " ml");
+
+
+                //Store new Daily Goal to shared preferences
+                // 1. Open the file: get reference
+                SharedPreferences prefPut = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
+                //2. Open the editor to be able to define what is added to shared preferences
+                SharedPreferences.Editor prefEditor = prefPut.edit();
+                //3. Put the key value pairs
+                prefEditor.putInt("new goal", Integer.parseInt(message));
+                //4. Save the changes by commit
+                prefEditor.apply();
+
+
+                //Display ne value on the screen
+                // 1. Open the file: get references
+                SharedPreferences prefGet1 = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
+                //2. Read the value, default 0 if not strored
+                int onCreateSaved1 = prefGet1.getInt("new goal", 0);
+                //3. Display stored goal
+                currentGoal.setText(onCreateSaved1 + getString(R.string.ml));
+                // responf to the user, whether changes are successful
+                Toast.makeText(getApplicationContext(),R.string.changes, Toast.LENGTH_LONG).show();
+            }
             finish();
         });
     }
-
-    /**
-     * Collects users input and validates and saves it
-     */
-    private void handleInput() {
-        final EditText editGoal = findViewById(R.id.editText_editdailygoal);
-        // text must not be empty
-        if (TextUtils.isEmpty(editGoal.getText())) {
-            Toast.makeText(getApplicationContext(), R.string.daily_goal_isEmpty, Toast.LENGTH_LONG).show();
-
-            // Make sure the data is not too large
-        } else if (Integer.parseInt(editGoal.getText().toString()) >= 10000) {
-            Toast.makeText(getApplicationContext(), R.string.daily_goal_too_large, Toast.LENGTH_LONG).show();
-
-            // ... or too small/negative
-        } else if (Integer.parseInt(editGoal.getText().toString()) <= 200) {
-            Toast.makeText(getApplicationContext(), R.string.daily_goal_too_small, Toast.LENGTH_LONG).show();
-        } else {
-            message = editGoal.getText().toString();
-            goal.setDailygoal(Integer.parseInt(message));
-            saveGoal();
-        }
-    }
-
-    /**
-     * Displays current daily goal
-     */
-    private void displayGoal() {
-        final TextView currentGoal = findViewById(R.id.textView_actualcurrentgoal);
-        SharedPreferences prefGet = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
-        int onCreateSaved = prefGet.getInt("new goal", 0);
-        String text = onCreateSaved + " ml";
-        currentGoal.setText(text);
-    }
-
-    /**
-     * Saves new goal to shared preferences
-     */
-    private void saveGoal() {
-        SharedPreferences prefPut = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor prefEditor = prefPut.edit();
-        prefEditor.putInt("new goal", Integer.parseInt(message));
-        prefEditor.apply();
-    }
 }
+

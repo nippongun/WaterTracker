@@ -13,19 +13,11 @@ public class ConsumptionViewModel extends AndroidViewModel {
 
     private LiveData<List<Consumption>> consumptionList;//add consumptionList although it is UnitViewModel
 
-    /*public void insertConsumption(Consumption con){
-        repository.insertConsumption(con);
-    }*/
-
     public ConsumptionViewModel (Application application){
         super(application);
         repository = new UnitRepository(application);
         consumptionList=repository.getConsumptionList();//get all consumption
     }
-//    public LiveData<Unit> getUnitByName(String name) {
-//        return repository.getUnitByName(name);
-//    }
-
     public LiveData<List<Consumption>> getAllConsumption(){
         return consumptionList;
     }
