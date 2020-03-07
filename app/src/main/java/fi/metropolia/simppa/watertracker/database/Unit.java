@@ -1,12 +1,15 @@
 package fi.metropolia.simppa.watertracker.database;
 
-//public enum DrinkType {Water, Soda, Juice}
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/*
+* Entity class for the units. Contains a name, volume and an auto-generated primary key
+* References:
+* https://developer.android.com/training/data-storage/room/defining-data
+* */
 @Entity(tableName = "unit_table")
 public class Unit {
 

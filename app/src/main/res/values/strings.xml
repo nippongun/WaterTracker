@@ -24,7 +24,7 @@
     //activity_show_list.xml
     <string name="isEmpty">Unit not saved because it is empty</string>
     <string name="unit_too_large">Unit is too large</string>
-    <string name="unit_too_small">Unitis too small</string>
+    <string name="unit_too_small">Unit is too small</string>
     <string name="spinnerHeader">Record consumption</string>
     <string name="percentage">50%</string>
     <string name="header">Today</string>
@@ -37,4 +37,12 @@
     //Notifications
     <string name="channel_name">Reminder</string>
     <string name="channel_description">Updates user on how much they drank and makes suggestions</string>
+
+    //names and misc.
+    <string name="dummy_name">SELECT AN ITEM</string>
+    <string name="standard_bottle_name">Standard Bottle</string>
+
+    //handling the dummy
+    <string name="select_an_dummy">SELECT AN</string>
+    <string name="item_dummy">ITEM</string>
 </resources>
