@@ -75,11 +75,6 @@ public abstract class UnitDatabase extends RoomDatabase {
                 unit = new Unit( standardBottle, 500);
                 dao.insertUnit(unit);
 
-                //add a consumption record
-//                Date date= Calendar.getInstance().getTime();
-//                Consumption consumption= new Consumption(1,date);
-//                dao.insertConsumption(consumption);
-
             });
         }
     };

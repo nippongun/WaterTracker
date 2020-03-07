@@ -35,8 +35,14 @@ public class ShowList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         unitViewModel = new ViewModelProvider(this).get(UnitViewModel.class);
-
         unitViewModel.getUnitList().observe(this, units -> adapter.setUnits(units.subList(1,units.size())));
+
+        unitViewModel.getUnitList().observe(this, new Observer<List<Unit>>() {
+            @Override
+            public void onChanged(@Nullable final List<Unit> units) {
+                adapter.setUnits(units.subList(1,units.size()));
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
 
