@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import java.util.Date;
@@ -43,15 +42,7 @@ public class Consumption {
         return timeStamp;
     }
 
-    public void setForeigenUnitKey(long foreigenUnitKey) {
-        this.foreigenUnitKey = foreigenUnitKey;
-    }
-
     public void setPrimaryKey(long primaryKey) {
         this.primaryKey = primaryKey;
-    }
-
-    public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
     }
 }

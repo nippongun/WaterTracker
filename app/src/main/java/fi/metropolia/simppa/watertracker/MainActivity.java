@@ -5,11 +5,10 @@ import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitDatabase;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
 
-import android.app.ActionBar;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlarmManager;
@@ -17,9 +16,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,38 +29,29 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
-    Button addUnitButton, dailyGoalButton, chartButton;
-    int todayConsumption = 0; //For circle chart
-    int todayGoal; //For circle chart
-    Intent intent;
+    private Button addUnitButton;
+    private Button dailyGoalButton;
+    private Button chartButton;
+    private int todayConsumption = 0; //For circle chart
+    private Intent intent;
     private ArrayList<String> unitNameList = new ArrayList<>();
     private Spinner spinner;
-    private boolean isinitial = true;
-
-    int waterConsumed = 0; //For circle chart
-    int waterGoal = 2500; //For circle chart
-    private DailyGoal goal = new DailyGoal(2500); //to obtain updated Daily Goal
-
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("test", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        
-
-
         addUnitButton = findViewById(R.id.button_addunit);
         dailyGoalButton = findViewById(R.id.button_dailygoal);
         chartButton = findViewById(R.id.button_chart);
-
+        progressBar = findViewById(R.id.stats_progressbar);
         //Set notifications
         Intent intent = new Intent(MainActivity.this, ReminderBroadcast.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, 0);
@@ -73,14 +61,16 @@ public class MainActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 14);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
+        if (alarmManager != null) {
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
         createNotificationChannel();
         //End of notifications
 
         getVolume gv= new getVolume();
 
-        //get today's year month and day then set Date from as the bigining of the day, Date to as the end of the day.
+        //get today's year month and day then set Date from as the beginning of the day, Date to as the end of the day.
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH);//month give you a value start from 0
@@ -105,32 +95,28 @@ public class MainActivity extends AppCompatActivity {
         //get view Model
         UnitViewModel unitViewModel = new ViewModelProvider(this).get(UnitViewModel.class);
         //get all units from database through view model and live data
-        unitViewModel.getUnitList().observe(this, new Observer<List<Unit>>() {
+        unitViewModel.getUnitList().observe(this, units -> {
 
-            @Override
-            public void onChanged(List<Unit> units) {
+            //empty the list so every item are not populate again and again
+            unitNameList.clear();
 
-                //empty the list so every item are not populate again and again
-                unitNameList.clear();
+            int i = 0;
+            for (Unit unit : units) {
 
-                int i = 0;
-                for (Unit unit : units) {
-
-                    if (i == 0) {
-                        i++;
-                        unitNameList.add(unit.getUnitName());
-                        continue;
-                    }
-
-                    unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
+                if (i == 0) {
+                    i++;
+                    unitNameList.add(unit.getUnitName());
+                    continue;
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.spinner_unit_style, unitNameList);
-                adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
-                spinner = findViewById(R.id.main_spinner_chooseUnit);
-
-                spinner.setAdapter(adapter);
+                unitNameList.add(unit.getUnitName() + " " + unit.getVolume() + "ml");
             }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.spinner_unit_style, unitNameList);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
+            spinner = findViewById(R.id.main_spinner_chooseUnit);
+
+            spinner.setAdapter(adapter);
         });//end of unitViewModel.getUnitList().observe
 
 
@@ -189,9 +175,6 @@ public class MainActivity extends AppCompatActivity {
         });//end of the spinner listener
     }
 
-
-
-
     /**update the piechart again onResume
      * **/
     @Override
@@ -242,6 +225,9 @@ public class MainActivity extends AppCompatActivity {
         gv.execute(from,to);
     }
 
+    /*
+    * Handles the buttons of the main activity
+    * */
     public void onButton(View view) {
 
         if (view.getId() == addUnitButton.getId()) {
@@ -250,6 +236,9 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(this, DailyGoalActivity.class);
         } else if (view.getId() == chartButton.getId()) {
             intent = new Intent(this, Chart.class);
+        } else if (view.getId() == progressBar.getId()){
+            intent = new Intent(this, AllDrinkList.class);
+            intent.putExtra("message","all");
         }
         startActivity(intent);
     }
@@ -258,29 +247,32 @@ public class MainActivity extends AppCompatActivity {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
             NotificationChannel channel = new NotificationChannel("notifyUser", "Reminders", NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
         }
     }
 
     //update circle chart
+    @SuppressLint("SetTextI18n")
     private void updateChart() {
         // Get latest daily goal
         // 1. Open the file: get references
-        SharedPreferences prefGet = getSharedPreferences("DailyGoal", Activity.MODE_PRIVATE);
+        SharedPreferences prefGet = getSharedPreferences("DailyGoal", MODE_PRIVATE);
         //2. Read the value, default 0 if not strored
-        todayGoal = prefGet.getInt("new goal", 0);
+        //For circle chart
+        int todayGoal = prefGet.getInt("new goal", 0);
 
         // Update the texts "consumed out of goal" and "XX%"
         TextView statusUpdateTextView = findViewById(R.id.statusUpdateTextView);
         TextView percentageTextView = findViewById(R.id.percentageTextView);
-        statusUpdateTextView.setText((todayConsumption) + " ml out of " + String.valueOf(todayGoal) + " ml");
+        statusUpdateTextView.setText((todayConsumption) + getString(R.string.ml_out_of) + todayGoal + getString(R.string.ml));
 
         // Calculate the slice size and update the pie chart:
         ProgressBar pieChart = findViewById(R.id.stats_progressbar);
@@ -291,15 +283,17 @@ public class MainActivity extends AppCompatActivity {
         Log.d("TEST", String.valueOf(todayGoal));
 
         //Save progress to share preference so it can be retrieved by notifications
-        SharedPreferences prefPut = getSharedPreferences("Progress", Activity.MODE_PRIVATE);
+        SharedPreferences prefPut = getSharedPreferences("Progress", MODE_PRIVATE);
         SharedPreferences.Editor prefEditor = prefPut.edit();
         prefEditor.putInt("Progress", progress);
-        prefEditor.commit();
+        prefEditor.apply();
     }
 
     /**
      * Search volume by day then in the onpostExecute method update the todayConsumption first then
      * performe updatechart()
+     * References:
+     * https://developer.android.com/reference/android/os/AsyncTask
      * */
     public class getVolume extends AsyncTask<Date, Integer, Integer> {
         UnitViewModel viewModel = new ViewModelProvider(MainActivity.this).get(UnitViewModel.class);
@@ -322,21 +316,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    * An async task makes sure, that the foreground of an app does not freeze and cause the Android system
+    * to forcefully close the app. Thus, heavier tasks are executed on their own thread in the background.
+    * In this case, the consumption gets inserted into the database
+    * References:
+    * https://developer.android.com/reference/android/os/AsyncTask
+    * */
     public class InsertConsumption extends AsyncTask<String, Void, Long> {
         @Override
         protected Long doInBackground(String... drinks) {
             UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
             Consumption consumption = new Consumption(db.unitDao().getUnitByName(drinks[0]).getPrimaryKey(),Calendar.getInstance().getTime());
-            long res = db.unitDao().insertConsumption(consumption);
-            Log.d("test", ""+res);
-            return res;
-            //return db.unitDao().insertConsumption(drinks[0]);
+            return db.unitDao().insertConsumption(consumption);
+            // returns the primary key of the newly created consumption
         }
 
+        // starts a new activity only after it run the thread
         @Override
         protected void onPostExecute(Long id) {
             super.onPostExecute(id);
-            //new id exist :)
             spinner.setSelection(0);
             Intent intent = new Intent(MainActivity.this, AllDrinkList.class);
             intent.putExtra("message", "all");
@@ -344,5 +343,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-//Todo: Splashscreen
 //Todo: Add-hoc input

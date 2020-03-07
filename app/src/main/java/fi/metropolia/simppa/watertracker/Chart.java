@@ -1,17 +1,11 @@
 package fi.metropolia.simppa.watertracker;
 
-import android.content.SharedPreferences;
-import android.icu.util.GregorianCalendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
+import androidx.lifecycle.ViewModelProvider;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -24,18 +18,11 @@ import com.anychart.enums.HoverMode;
 import com.anychart.enums.Position;
 import com.anychart.enums.TooltipPositionMode;
 
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Observable;
-
-import fi.metropolia.simppa.watertracker.database.Consumption;
-import fi.metropolia.simppa.watertracker.database.Converters;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
 
 public class Chart extends AppCompatActivity {
@@ -55,7 +42,7 @@ public class Chart extends AppCompatActivity {
         private List<Integer> volumeList= new ArrayList<>();
         UnitViewModel viewModel = new ViewModelProvider(Chart.this).get(UnitViewModel.class);
 
-        public Date addDays(Date date, int days)
+        private Date addDays(Date date, int days)
         {
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
