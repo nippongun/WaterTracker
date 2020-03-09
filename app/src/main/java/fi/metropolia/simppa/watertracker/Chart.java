@@ -1,17 +1,11 @@
 package fi.metropolia.simppa.watertracker;
 
-import android.content.SharedPreferences;
-import android.icu.util.GregorianCalendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
+import androidx.lifecycle.ViewModelProvider;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -24,17 +18,11 @@ import com.anychart.enums.HoverMode;
 import com.anychart.enums.Position;
 import com.anychart.enums.TooltipPositionMode;
 
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Observable;
-
-import fi.metropolia.simppa.watertracker.database.Consumption;
-import fi.metropolia.simppa.watertracker.database.Converters;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
 
 public class Chart extends AppCompatActivity {
@@ -54,7 +42,7 @@ public class Chart extends AppCompatActivity {
         private List<Integer> volumeList= new ArrayList<>();
         UnitViewModel viewModel = new ViewModelProvider(Chart.this).get(UnitViewModel.class);
 
-        public Date addDays(Date date, int days)
+        private Date addDays(Date date, int days)
         {
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
@@ -62,6 +50,9 @@ public class Chart extends AppCompatActivity {
             return cal.getTime();
         }
 
+        /***
+         * set the volume list returned from doInBackground()  to the chart and rendering it
+         */
 
 
         @Override
@@ -72,16 +63,20 @@ public class Chart extends AppCompatActivity {
 
             List<DataEntry> data = new ArrayList<>();
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(0)));
-            cal.add(Calendar.DATE, -1);
+            cal.add(Calendar.DATE, -1);//change the date to one day before
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(1)));
-            cal.add(Calendar.DATE, -1);
+            cal.add(Calendar.DATE, -1);//change the date to one day before
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(2)));
-            cal.add(Calendar.DATE, -1);
+            cal.add(Calendar.DATE, -1);//change the date to one day before
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(3)));
-            cal.add(Calendar.DATE, -1);
+            cal.add(Calendar.DATE, -1);//change the date to one day before
             data.add(new ValueDataEntry(""+cal.get(Calendar.DAY_OF_MONTH)+"/"+(cal.get(Calendar.MONTH)+1), integes.get(4)));
+            Collections.reverse(data);
             chartRendering(data);
         }
+        /**
+         * get the volume by date if there is no record will return 0
+         */
 
         @Override
         protected List<Integer> doInBackground(Date... dates) {
