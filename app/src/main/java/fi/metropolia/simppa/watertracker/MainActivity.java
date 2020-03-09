@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(this, DailyGoalActivity.class);
         } else if (view.getId() == R.id.button_chart) {
             intent = new Intent(this, Chart.class);
+        } else if (view.getId() == R.id.stats_progressbar){
+            intent = new Intent(this, AllDrinkList.class);
+            intent.putExtra("message","all");
         }
         startActivity(intent);
     }
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         todayGoal = prefGet.getInt("new goal", 2500);
         // Update the texts "consumed out of goal" and "XX%"
         TextView statusUpdateTextView = findViewById(R.id.statusUpdateTextView);
-        String text = todayConsumption + getString(R.string.ml_out_of) + todayGoal + getString(R.string.ml);
+        String text = todayConsumption + " " + getString(R.string.ml_out_of) + " " + todayGoal + getString(R.string.ml);
         statusUpdateTextView.setText(text);
     }
 
