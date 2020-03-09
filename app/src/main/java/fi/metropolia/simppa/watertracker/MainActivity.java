@@ -4,13 +4,10 @@ import fi.metropolia.simppa.watertracker.database.Consumption;
 import fi.metropolia.simppa.watertracker.database.Unit;
 import fi.metropolia.simppa.watertracker.database.UnitDatabase;
 import fi.metropolia.simppa.watertracker.database.UnitViewModel;
-
 import android.content.SharedPreferences;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -25,12 +22,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -47,20 +41,56 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setNotifications();
         updateChartConsumption();
+        handleSpinner();
+        handleSpinnerListener();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateChartConsumption();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateChartConsumption();
+    }
+
+    /**
+     * Handles the buttons in the in main activity
+     */
+    public void onButton(View view) {
+        if (view.getId() == R.id.button_addunit) {
+            intent = new Intent(this, ShowList.class);
+        } else if (view.getId() == R.id.button_dailygoal) {
+            intent = new Intent(this, DailyGoalActivity.class);
+        } else if (view.getId() == R.id.button_chart) {
+            intent = new Intent(this, Chart.class);
+        } else if (view.getId() == R.id.stats_progressbar){
+            intent = new Intent(this, AllDrinkList.class);
+            intent.putExtra("message","all");
+        }
+        startActivity(intent);
+    }
+
+    /**
+    * Handles the creation of the spinner which holds the units
+    */
+    private void handleSpinner(){
 
         /*
          * From Feihua
          * populate the spinner in the main_activity
          *
          */
-        //get view Model
+        //get view Mode
         UnitViewModel unitViewModel = new ViewModelProvider(this).get(UnitViewModel.class);
         //get all units from database through view model and live data
         unitViewModel.getUnitList().observe(this, new Observer<List<Unit>>() {
 
             @Override
             public void onChanged(List<Unit> units) {
-
                 //empty the list so every item are not populate again and again
                 unitNameList.clear();
                 int i = 0;
@@ -78,15 +108,12 @@ public class MainActivity extends AppCompatActivity {
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.spinner_unit_style, unitNameList);
 
-
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown_style);
                 spinner = findViewById(R.id.main_spinner_chooseUnit);
 
                 spinner.setAdapter(adapter);
             }
         });//end of unitViewModel.getUnitList().observe
-
-
 
         /*
         add a listener to the spinner when you select one item of spinners the text get extracted
@@ -99,16 +126,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         spinner.setSelection(0);
+    }
 
-
+    /**
+    * Handles the spinner's listener to behave correctly
+    */
+    private void handleSpinnerListener(){
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String[] unitName = spinner.getSelectedItem().toString().split(" ");
                 Log.d("MAIN", "what? " + unitName[0]);
                 //UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
-                if (!unitName[0].equals("SELECT")) {
-                    InsertConsumption ic = new InsertConsumption();
+                if (!unitName[0].equals(getString(R.string.dummy_name))){
+                    MainActivity.InsertConsumption ic = new MainActivity.InsertConsumption();
                     ic.execute(unitName[0]);
                 }
             }
@@ -120,6 +151,43 @@ public class MainActivity extends AppCompatActivity {
         });//end of the spinner listener
     }
 
+    /**
+     * Updates pie chart and text view with how much water has been consumed that day
+     */
+    private void updateChartConsumption() {
+        GetVolume gv;
+        gv = new GetVolume();
+        //get today's year month and day then set Date from as the bigining of the day, Date to as the end of the day.
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(0);
+        cal.set(year, month, day, 0, 0, 0);
+        Date from = cal.getTime();
+        cal.set(year, month, day, 23, 59, 59);
+        Date to = cal.getTime();
+        //get the whole day's volume and set to chart
+        gv.execute(from, to);
+    }
+
+    /**
+     * Configures when are notifications send
+     */
+    private void setNotifications(){
+        Intent intents = new Intent(MainActivity.this, ReminderBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intents, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        //Set the alarm to start at approximately 2:00 p.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 14);
+        if (alarmManager != null) {
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+    }
     @Override
     public void onStart() {
         super.onStart();
@@ -131,41 +199,21 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         updateChartConsumption();
     }
-
-    public class InsertConsumption extends AsyncTask<String, Void, Long> {
-        @Override
-        protected Long doInBackground(String... drinks) {
-            UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
-            Consumption consumption = new Consumption(db.unitDao().getUnitByName(drinks[0]).getPrimaryKey(), Calendar.getInstance().getTime());
-            long res = db.unitDao().insertConsumption(consumption);
-            Log.d("test", "" + res);
-            return res;
-            //return db.unitDao().insertConsumption(drinks[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Long id) {
-            super.onPostExecute(id);
-            //new id exist :)
-            spinner.setSelection(0);
-            Intent intent = new Intent(MainActivity.this, AllDrinkList.class);
-            intent.putExtra("message", "all");
-            startActivity(intent);
-        }
-    }
-
-    public void onButton(View view) {
-        if (view.getId() == R.id.button_addunit) {
-            intent = new Intent(this, ShowList.class);
-        } else if (view.getId() == R.id.button_dailygoal) {
-            intent = new Intent(this, DailyGoalActivity.class);
-        } else if (view.getId() == R.id.button_chart) {
-            intent = new Intent(this, Chart.class);
-        }
-        startActivity(intent);
-    }
-
+  
     /**
+     * Sets channel for notifications
+     */
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String description = getString(R.string.channel_description);
+            NotificationChannel channel = new NotificationChannel("notifyUser", "Reminders", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+    }
      * Updates the pie chart with daily goal set by the user
      */
     private void updateChartGoal() {
@@ -253,7 +301,8 @@ public class MainActivity extends AppCompatActivity {
      * Search volume by day then in the onpostExecute method update the todayConsumption first then
      * performe updatechart()
      */
-    public class getVolume extends AsyncTask<Date, Integer, Integer> {
+    public class GetVolume extends AsyncTask<Date, Integer, Integer> {
+
         UnitViewModel viewModel = new ViewModelProvider(MainActivity.this).get(UnitViewModel.class);
 
         @Override
@@ -274,4 +323,33 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    /*
+     * An async task makes sure, that the foreground of an app does not freeze and cause the Android system
+     * to forcefully close the app. Thus, heavier tasks are executed on their own thread in the background.
+     * In this case, the consumption gets inserted into the database
+     * References:
+     * https://developer.android.com/reference/android/os/AsyncTask
+     * */
+    public class InsertConsumption extends AsyncTask<String, Void, Long> {
+        @Override
+        protected Long doInBackground(String... drinks) {
+            UnitDatabase db = UnitDatabase.getDatabase(getApplicationContext());
+            Consumption consumption = new Consumption(db.unitDao().getUnitByName(drinks[0]).getPrimaryKey(),Calendar.getInstance().getTime());
+            return db.unitDao().insertConsumption(consumption);
+            // returns the primary key of the newly created consumption
+        }
+
+        // starts a new activity only after it run the thread
+        @Override
+        protected void onPostExecute(Long id) {
+            super.onPostExecute(id);
+            spinner.setSelection(0);
+            Intent intent = new Intent(MainActivity.this, AllDrinkList.class);
+            intent.putExtra("message", "all");
+            startActivity(intent);
+        }
+    }
 }
+
+// class level actrivities, constructors, overwrite, own methods, inner classes, method max 5 lines, separate business logic from UI, separate model from creator
+

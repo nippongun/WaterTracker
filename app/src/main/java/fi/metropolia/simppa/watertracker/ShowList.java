@@ -65,7 +65,7 @@ public class ShowList extends AppCompatActivity {
         int volume = data.getIntExtra(UnitActivity.EXTRA_MESSAGE_VOLUME,0);
         // handle the data and requests
         // only if the data is correct, a unit can be created and inserted into the database
-        if(requestCode == NEW_UNIT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK && (volume>minVolume&&volume<maxVolume)){
+        if(requestCode == NEW_UNIT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK && (volume>=minVolume&&volume<=maxVolume)){
             Unit unit = new Unit(Objects.requireNonNull(data.getStringExtra(UnitActivity.EXTRA_MESSAGE_UNIT_NAME))
                     ,volume);
             unitViewModel.insertUnit(unit);

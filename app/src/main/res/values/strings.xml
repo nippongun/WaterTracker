@@ -9,8 +9,8 @@
     <string name="new_goal">New goal</string>
     <string name="set_goal">Set</string>
     <string name="daily_goal_isEmpty">Daily goal not saved because it is empty</string>
-    <string name="daily_goal_too_large">Daily goal cannot be larger than "10000"</string>
-    <string name="daily_goal_too_small">Please set a higher goal (:</string>
+    <string name="daily_goal_too_large">Daily goal cannot be larger than 10000 ml</string>
+    <string name="daily_goal_too_small">Please set your at least at 1000 ml</string>
     <string name="goal">2500 ml</string>
     <string name="hint">2500</string>
     <string name="recommendations">https://www.omnicalculator.com/health/water-intake</string>
