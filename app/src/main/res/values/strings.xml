@@ -13,6 +13,8 @@
     <string name="daily_goal_too_small">Please set your at least at 1000 ml</string>
     <string name="goal">2500 ml</string>
     <string name="hint">2500</string>
+    <string name="recommendations">https://www.omnicalculator.com/health/water-intake</string>
+    <string name="recommendations_url">https://www.omnicalculator.com/health/water-intake</string>
 
     //activity_main.xml
     <string name="select_drink">Select a drink to record</string>

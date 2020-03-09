@@ -1,6 +1,8 @@
 package fi.metropolia.simppa.watertracker;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +12,8 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 import java.util.Objects;
 
 import fi.metropolia.simppa.watertracker.database.Unit;
@@ -35,8 +39,14 @@ public class ShowList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         unitViewModel = new ViewModelProvider(this).get(UnitViewModel.class);
-
         unitViewModel.getUnitList().observe(this, units -> adapter.setUnits(units.subList(1,units.size())));
+
+        unitViewModel.getUnitList().observe(this, new Observer<List<Unit>>() {
+            @Override
+            public void onChanged(@Nullable final List<Unit> units) {
+                adapter.setUnits(units.subList(1,units.size()));
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
 

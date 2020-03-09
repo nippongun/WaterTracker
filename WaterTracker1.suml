@@ -1,2 +1,141 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Classdiagram><settings><option name="paintImplements" value="true" /><option name="paintDepends" value="false" /><option name="layoutOnChanges" value="false" /><option name="paintUses" value="false" /><option name="paintInner" value="true" /><option name="paintExtends" value="true" /></settings><classes /><stickycomponents /><textcomponents /><connectors /></Classdiagram>
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<Classdiagram>
+    <settings>
+        <option name="paintImplements" value="true" />
+        <option name="paintDepends" value="false" />
+        <option name="layoutOnChanges" value="false" />
+        <option name="paintUses" value="false" />
+        <option name="paintInner" value="true" />
+        <option name="paintExtends" value="true" />
+    </settings>
+    <classes>
+        <class name="fi.metropolia.simppa.watertracker.database.UnitListAdapter" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.DailyGoal" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.database.UnitRepository" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.database.UnitDatabase" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.UnitActivity" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.ShowList" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.AllDrinkList" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.database.Consumption" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.database.Converters" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.database.UnitDao" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.DailyGoalActivity" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.MyAdapter" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.database.UnitViewModel" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.database.Unit" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+        <class name="fi.metropolia.simppa.watertracker.MainActivity" x="0" y="0">
+            <option name="pinned" value="false" />
+            <option name="fieldsExpanded" value="false" />
+            <option name="constructorsExpanded" value="false" />
+            <option name="methodsExpanded" value="false" />
+        </class>
+    </classes>
+    <stickycomponents />
+    <textcomponents />
+    <connectors>
+        <connector from="fi.metropolia.simppa.watertracker.database.UnitDatabase" to="fi.metropolia.simppa.watertracker.database.UnitDatabase">
+            <anchor constraint="1" type="2" x="173" y="67" />
+            <anchor constraint="1" type="1" x="173" y="92" />
+            <anchor constraint="1" type="1" x="217" y="92" />
+            <anchor constraint="1" type="1" x="217" y="33" />
+            <anchor constraint="1" type="2" x="207" y="33" />
+            <decorator type="4" description="- volatile  INSTANCE" />
+        </connector>
+        <connector from="fi.metropolia.simppa.watertracker.MainActivity" to="fi.metropolia.simppa.watertracker.DailyGoal">
+            <anchor constraint="1" type="2" x="0" y="0" />
+            <anchor constraint="1" type="2" x="0" y="0" />
+            <decorator type="4" description="-  goal" />
+        </connector>
+        <connector from="fi.metropolia.simppa.watertracker.DailyGoalActivity" to="fi.metropolia.simppa.watertracker.DailyGoal">
+            <anchor constraint="1" type="2" x="0" y="0" />
+            <anchor constraint="1" type="2" x="0" y="0" />
+            <decorator type="4" description="-  goal" />
+        </connector>
+        <connector from="fi.metropolia.simppa.watertracker.database.UnitRepository" to="fi.metropolia.simppa.watertracker.database.UnitDao">
+            <anchor constraint="1" type="2" x="0" y="0" />
+            <anchor constraint="1" type="2" x="0" y="0" />
+            <decorator type="4" description="-  unitDao" />
+        </connector>
+        <connector from="fi.metropolia.simppa.watertracker.database.UnitViewModel" to="fi.metropolia.simppa.watertracker.database.UnitRepository">
+            <anchor constraint="1" type="2" x="0" y="0" />
+            <anchor constraint="1" type="2" x="0" y="0" />
+            <decorator type="4" description="-  repository" />
+        </connector>
+        <connector from="fi.metropolia.simppa.watertracker.ShowList" to="fi.metropolia.simppa.watertracker.database.UnitViewModel">
+            <anchor constraint="1" type="2" x="0" y="0" />
+            <anchor constraint="1" type="2" x="0" y="0" />
+            <decorator type="4" description="-  unitViewModel" />
+        </connector>
+    </connectors>
+</Classdiagram>
