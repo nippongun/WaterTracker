@@ -47,4 +47,5 @@
     //handling the dummy
     <string name="select_an_dummy">SELECT AN</string>
     <string name="item_dummy">ITEM</string>
+    <string name="no_unit">No unit</string>
 </resources>
