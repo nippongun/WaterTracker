@@ -25,8 +25,8 @@
         android:id="@+id/textView_currentgoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pontano_sans"
         android:layout_marginTop="32dp"
+        android:fontFamily="@font/pontano_sans"
         android:text="@string/current_goal"
         android:textColor="@color/icon"
         android:textSize="30sp"
@@ -38,8 +38,8 @@
         android:id="@+id/textView_actualcurrentgoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pontano_sans"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/pontano_sans"
         android:text="@string/goal"
         android:textColor="@color/icon"
         android:textSize="30sp"
@@ -51,8 +51,8 @@
         android:id="@+id/textView_newgoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pontano_sans"
         android:layout_marginTop="32dp"
+        android:fontFamily="@font/pontano_sans"
         android:text="@string/new_goal"
         android:textColor="@color/icon"
         android:textSize="30sp"
@@ -83,9 +83,11 @@
     <Button
         android:id="@+id/button_setgoal"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="76dp"
         android:layout_marginEnd="76dp"
+        android:layout_marginBottom="19dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/pontano_sans"
         android:text="@string/set_goal"
@@ -94,6 +96,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_editdailygoal"
+        app:layout_constraintTop_toBottomOf="@+id/linkReccomendations"
         app:layout_constraintVertical_bias="0.86" />
+
+    <TextView
+        android:id="@+id/linkReccomendations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/pontano_sans"
+        android:text="@string/recommendations"
+        android:autoLink="all"
+        android:textAllCaps="false"
+        android:textColor="@color/icon"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_editdailygoal" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
