@@ -26,6 +26,57 @@ public class ShowList extends AppCompatActivity {
         minVolume = getResources().getInteger(R.integer.min_unit_volume);
         maxVolume = getResources().getInteger(R.integer.max_unit_volume);
 
+        handleViewModel();
+
+        handleFAB();
+    }
+
+    /*
+    * This method handles the data that comes sent back by the activity "UnitActivity"
+    * It makes sure that the data is valid by checking the value of volume.
+    * If the data is empty it notifies the user.
+    * */
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data != null) {
+            int volume = data.getIntExtra(UnitActivity.EXTRA_MESSAGE_VOLUME, 0);
+            // handle the data and requests
+            // only if the data is correct, a unit can be created and inserted into the database
+            if (requestCode == NEW_UNIT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK && (volume >= minVolume && volume <= maxVolume)) {
+                Unit unit = new Unit(Objects.requireNonNull(data.getStringExtra(UnitActivity.EXTRA_MESSAGE_UNIT_NAME))
+                        , volume);
+                unitViewModel.insertUnit(unit);
+                Toast.makeText(getApplicationContext(), R.string.changes, Toast.LENGTH_LONG).show();
+            } else {
+                //otherwise shoot toasts and tell the user what went wrong
+                if (volume > maxVolume) {
+                    // A unit can't be too large
+                    Toast.makeText(getApplicationContext(), R.string.unit_too_large, Toast.LENGTH_LONG).show();
+                } else if (volume < minVolume) {
+                    //or too small
+                    Toast.makeText(getApplicationContext(), R.string.unit_too_small, Toast.LENGTH_LONG).show();
+                } else {
+                    // If the user enters
+                    Toast.makeText(getApplicationContext(), R.string.isEmpty, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+    /**
+     * This method initializes the floating action button of the activity.
+     */
+    void handleFAB(){
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(ShowList.this, UnitActivity.class);
+            startActivityForResult(intent, NEW_UNIT_ACTIVITY_REQUEST_CODE );
+        });
+    }
+    /**
+     * Handles the creation of the view model for the units.
+     */
+    void handleViewModel(){
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final UnitListAdapter adapter = new UnitListAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -39,42 +90,5 @@ public class ShowList extends AppCompatActivity {
                 adapter.setUnits(units.subList(1,units.size()));
             }
         });
-
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
-
-        fab.setOnClickListener(v -> {
-            Intent intent = new Intent(ShowList.this, UnitActivity.class);
-            startActivityForResult(intent, NEW_UNIT_ACTIVITY_REQUEST_CODE );
-        });
-    }
-
-    /*
-    * This method handles the data that comes sent back by the activity "UnitActivity"
-    *
-    * */
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        int volume = data.getIntExtra(UnitActivity.EXTRA_MESSAGE_VOLUME,0);
-        // handle the data and requests
-        // only if the data is correct, a unit can be created and inserted into the database
-        if(requestCode == NEW_UNIT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK && (volume>=minVolume&&volume<=maxVolume)){
-            Unit unit = new Unit(Objects.requireNonNull(data.getStringExtra(UnitActivity.EXTRA_MESSAGE_UNIT_NAME))
-                    ,volume);
-            unitViewModel.insertUnit(unit);
-            Toast.makeText(getApplicationContext(),R.string.changes, Toast.LENGTH_LONG).show();
-        } else {
-            //otherwise shoot toasts and tell the user what went wrong
-            if(volume > maxVolume){
-                // A unit can't be too large
-                Toast.makeText(getApplicationContext(),R.string.unit_too_large, Toast.LENGTH_LONG).show();
-            } else if (volume < minVolume){
-                //or too small
-                Toast.makeText(getApplicationContext(),R.string.unit_too_small, Toast.LENGTH_LONG).show();
-            }else{
-                // If the user enters
-                Toast.makeText(getApplicationContext(), R.string.isEmpty, Toast.LENGTH_LONG).show();
-            }
-
-        }
     }
 }
