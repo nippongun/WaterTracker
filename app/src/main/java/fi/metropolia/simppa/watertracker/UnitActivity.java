@@ -25,14 +25,17 @@ public class UnitActivity extends AppCompatActivity {
 
         volume = findViewById(R.id.textEdit_volume);
         unitName = findViewById(R.id.textEdit_unitname);
+        handleButton();
+    }
 
+    void handleButton(){
         final Button button = findViewById(R.id.button_addUnit);
         button.setOnClickListener(v -> {
             Intent replyIntent = new Intent();
             // If one of text fields are empty
             if(TextUtils.isEmpty(volume.getText()) || TextUtils.isEmpty(unitName.getText())){
-                 setResult(RESULT_CANCELED, replyIntent);
-                 // send the message CANCELED, which do not insert any unit to the db
+                setResult(RESULT_CANCELED, replyIntent);
+                // send the message CANCELED, which do not insert any unit to the db
             } else {
                 // otherwise prepare to send the data to
                 strUnitName = unitName.getText().toString();

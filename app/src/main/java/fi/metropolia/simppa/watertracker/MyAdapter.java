@@ -14,9 +14,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private List<String> myData;
     private List<String> date;
 
-
-
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    static class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView mytextView;
         private TextView date;
         MyViewHolder(@NonNull View itemView) {

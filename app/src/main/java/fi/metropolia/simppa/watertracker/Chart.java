@@ -37,16 +37,16 @@ public class Chart extends AppCompatActivity {
      * to find out the volume by date.
      * **/
 
-    public class getVolume extends AsyncTask<Date, Void, List<Integer>> {
+    public class GetVolume extends AsyncTask<Date, Void, List<Integer>> {
 
         private List<Integer> volumeList= new ArrayList<>();
         UnitViewModel viewModel = new ViewModelProvider(Chart.this).get(UnitViewModel.class);
 
-        private Date addDays(Date date, int days)
+        private Date addDays(Date date)
         {
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
-            cal.add(Calendar.DATE, days); //minus number would decrement the days
+            cal.add(Calendar.DATE, -1); //minus number would decrement the days
             return cal.getTime();
         }
 
@@ -86,32 +86,32 @@ public class Chart extends AppCompatActivity {
                 volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
 
             }
-            dates[0]=addDays(dates[0],-1);
-            dates[1]=addDays(dates[1],-1);
+            dates[0]=addDays(dates[0]);
+            dates[1]=addDays(dates[1]);
             if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
                 volumeList.add(0);
             }else{
                 volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
 
             }
-            dates[0]=addDays(dates[0],-1);
-            dates[1]=addDays(dates[1],-1);
+            dates[0]=addDays(dates[0]);
+            dates[1]=addDays(dates[1]);
             if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
                 volumeList.add(0);
             }else{
                 volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
 
             }
-            dates[0]=addDays(dates[0],-1);
-            dates[1]=addDays(dates[1],-1);
+            dates[0]=addDays(dates[0]);
+            dates[1]=addDays(dates[1]);
             if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
                 volumeList.add(0);
             }else{
                 volumeList.add(viewModel.selectVolumeByDate(dates[0],dates[1]));
 
             }
-            dates[0]=addDays(dates[0],-1);
-            dates[1]=addDays(dates[1],-1);
+            dates[0]=addDays(dates[0]);
+            dates[1]=addDays(dates[1]);
             if(viewModel.selectVolumeByDate(dates[0],dates[1])==null) {
                 volumeList.add(0);
             }else{
@@ -147,7 +147,7 @@ public class Chart extends AppCompatActivity {
 
 
 
-        getVolume gv= new getVolume();
+        GetVolume gv= new GetVolume();
 
         gv.execute(from,to);
 

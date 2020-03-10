@@ -42,7 +42,7 @@ public class UnitListAdapter extends RecyclerView.Adapter<UnitListAdapter.UnitVi
     * Holds the data in a view and gets the specific layout.
     * */
     @Override
-    public UnitViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public UnitViewHolder onCreateViewHolder( ViewGroup parent, int viewType){
         View itemView = inflater.inflate(R.layout.recyclerview_item, parent,false);
         return new UnitViewHolder(itemView);
     }
@@ -58,7 +58,7 @@ public class UnitListAdapter extends RecyclerView.Adapter<UnitListAdapter.UnitVi
             holder.unitItemView.setText(current.getUnitName());
             holder.volumeItemView.setText(Integer.toString(current.getVolume()));
         } else {
-         holder.unitItemView.setText("No unit");
+         holder.unitItemView.setText(R.string.no_unit);
         }
     }
 
