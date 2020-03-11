@@ -1,13 +1,12 @@
 package fi.metropolia.simppa.watertracker;
 
 import android.app.Activity;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -29,18 +28,17 @@ public class ReminderBroadcast extends BroadcastReceiver {
         //Notification itself
 
         if (progress > 20) {// if by 14:00
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyUser")
-                 .setSmallIcon(R.drawable.icon)
-                .setContentTitle("Today you drank " + progress + " % of your daily goal.")
-                .setContentText("You are on a good track!") //one liner
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setCategory(NotificationCompat.CATEGORY_REMINDER)
-                .setContentIntent(toMainIntent)
-                .setAutoCancel(true);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(200, builder.build());}
-
-        else {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyUser")
+                    .setSmallIcon(R.drawable.icon)
+                    .setContentTitle("Today you drank " + progress + " % of your daily goal.")
+                    .setContentText("You are on a good track!") //one liner
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                    .setContentIntent(toMainIntent)
+                    .setAutoCancel(true);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+            notificationManager.notify(200, builder.build());
+        } else {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyUser")
                     .setSmallIcon(R.drawable.icon)
                     .setContentTitle("You drank " + progress + " % of your daily goal today.")
@@ -50,10 +48,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
                     .setContentIntent(toMainIntent)
                     .setAutoCancel(true);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-            notificationManager.notify(200, builder.build());}
+            notificationManager.notify(200, builder.build());
         }
     }
-
-    //sources: https://www.youtube.com/watch?v=nl-dheVpt8o
-    //sources: https://developer.android.com/training/notify-user/build-notification
-    //sources: https://developer.android.com/training/scheduling/alarms#java
+}

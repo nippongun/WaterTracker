@@ -31,11 +31,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:autofillHints="no"
             android:background="@color/backgroundLite"
             android:ems="10"
             android:hint="@string/volume"
-            android:autofillHints="no"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:textAlignment="center" />
 
         <Button
