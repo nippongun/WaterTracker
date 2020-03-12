@@ -36,6 +36,7 @@
             android:ems="10"
             android:hint="@string/volume"
             android:inputType="number"
+            android:maxLength="6"
             android:textAlignment="center" />
 
         <Button
