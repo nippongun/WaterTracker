@@ -11,8 +11,8 @@ During the course following technologies were used and learned:
 -Java with AndroidStudio
 -SQL in AndroidStudio (SQLite)
 
-##Group Work
+## Group Work
 The work was dynamically fulfilled in a group of three. The organization was supported with Scrum techniques.
 
-##Result:
+## Result:
 The result is refined app, where the team learned a lot about Java, SQL, programming and especially team work. The dynamic team work allowed the app to be voted the best of class.
