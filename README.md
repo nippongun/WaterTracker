@@ -8,8 +8,8 @@ If the user hasn't drank in a while, the app reminds the user to stay hydrated w
 
 ## Technologies 
 During the course following technologies were used and learned:
--Java with AndroidStudio
--SQL in AndroidStudio (SQLite)
+- Java with AndroidStudio
+- SQL in AndroidStudio (SQLite)
 
 ## Group Work
 The work was dynamically fulfilled in a group of three. The organization was supported with Scrum techniques.
